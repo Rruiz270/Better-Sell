@@ -3,128 +3,198 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, BarChart3, Users, Globe, TrendingUp, Zap, Shield, Star } from "lucide-react"
+import { ArrowRight, BarChart3, Users, Globe, TrendingUp, Zap, Shield, Star, CheckCircle } from "lucide-react"
 import Link from "next/link"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
 
   const brands = [
-    { name: 'Alumni', description: 'English & Spanish Learning', color: 'from-blue-600 to-blue-700', icon: '🎓' },
-    { name: 'TEACH', description: 'AI Education Platform', color: 'from-purple-600 to-purple-700', icon: '🤖' },
-    { name: 'Sprix', description: 'Coding & Mathematics', color: 'from-green-600 to-green-700', icon: '💻' },
-    { name: 'JINSO', description: 'Testing & WhatsApp Solutions', color: 'from-orange-600 to-orange-700', icon: '📱' },
-    { name: 'Kidpreneurs', description: 'Entrepreneurship for Kids', color: 'from-pink-600 to-pink-700', icon: '👶' },
+    { 
+      name: 'Alumni', 
+      description: 'English & Spanish Learning', 
+      color: 'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)', 
+      icon: '🎓',
+      features: ['Certificação Internacional', 'Método Imersivo', 'Suporte 24/7']
+    },
+    { 
+      name: 'TEACH', 
+      description: 'AI Education Platform', 
+      color: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)', 
+      icon: '🤖',
+      features: ['IA Personalizada', 'Analytics Avançado', 'Integração LMS']
+    },
+    { 
+      name: 'Sprix', 
+      description: 'Coding & Mathematics', 
+      color: 'linear-gradient(135deg, #10B981 0%, #059669 100%)', 
+      icon: '💻',
+      features: ['Gamificação', 'Projetos Reais', 'Mentoria Individual']
+    },
+    { 
+      name: 'JINSO', 
+      description: 'Testing & WhatsApp Solutions', 
+      color: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', 
+      icon: '📱',
+      features: ['Automação WhatsApp', 'Testes A/B', 'CRM Integrado']
+    },
+    { 
+      name: 'Kidpreneurs', 
+      description: 'Entrepreneurship for Kids', 
+      color: 'linear-gradient(135deg, #EC4899 0%, #BE185D 100%)', 
+      icon: '👶',
+      features: ['Metodologia Lúdica', 'Projetos Práticos', 'Desenvolvimento Socioemocional']
+    },
   ]
 
   const stats = [
-    { label: 'Active Franchisees', value: '250+', icon: Users },
-    { label: 'Average Commission', value: '20%', icon: TrendingUp },
-    { label: 'Territories Covered', value: '15 States', icon: Globe },
-    { label: 'Revenue Growth', value: '+45%', icon: BarChart3 },
+    { label: 'Franqueados Ativos', value: '250+', icon: Users },
+    { label: 'Comissão Média', value: '20%', icon: TrendingUp },
+    { label: 'Estados Cobertos', value: '15', icon: Globe },
+    { label: 'Crescimento', value: '+45%', icon: BarChart3 },
   ]
 
-  const features = [
-    {
-      icon: Zap,
-      title: 'Intelligent Lead Distribution',
-      description: 'Territory-based allocation with smart overflow to maximize conversions'
-    },
-    {
-      icon: Shield,
-      title: 'Secure Platform',
-      description: 'LGPD compliant with enterprise-grade security and data protection'
-    },
-    {
-      icon: BarChart3,
-      title: 'Advanced Analytics',
-      description: 'Real-time dashboards with performance insights and growth predictions'
-    },
-    {
-      icon: Star,
-      title: 'Better Tech Integration',
-      description: 'Seamlessly integrates with existing Alumni and TEACH platforms'
-    },
+  const benefits = [
+    { title: 'Investimento Fixo', description: 'Apenas R$ 50.000 para começar', icon: '💰' },
+    { title: 'Comissão Unificada', description: '20% em todas as marcas', icon: '📈' },
+    { title: 'Suporte Completo', description: 'Treinamento e mentoria contínua', icon: '🤝' },
+    { title: 'Território Exclusivo', description: 'Gestão inteligente de leads', icon: '🗺️' },
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-green-50">
+    <div style={{ minHeight: '100vh', backgroundColor: '#F8FAFC' }}>
       {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">B</span>
+      <header style={{ 
+        backgroundColor: 'rgba(255, 255, 255, 0.95)', 
+        backdropFilter: 'blur(10px)', 
+        borderBottom: '1px solid #E2E8F0', 
+        position: 'sticky', 
+        top: 0, 
+        zIndex: 50 
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ 
+                width: '40px', 
+                height: '40px', 
+                background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
+                borderRadius: '8px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center' 
+              }}>
+                <span style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}>B</span>
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Better Sell</span>
+              <h1 style={{ 
+                fontSize: '24px', 
+                fontWeight: 'bold', 
+                background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
+                WebkitBackgroundClip: 'text', 
+                backgroundClip: 'text', 
+                color: 'transparent' 
+              }}>
+                Better Sell
+              </h1>
             </div>
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">
-                Features
+            <nav style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+              <Link href="/dashboard" style={{ 
+                color: '#64748B', 
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+                fontWeight: '500'
+              }}>
+                Dashboard
               </Link>
-              <Link href="#brands" className="text-gray-600 hover:text-blue-600 transition-colors">
-                Brands
-              </Link>
-              <Link href="#stats" className="text-gray-600 hover:text-blue-600 transition-colors">
-                Stats
-              </Link>
-              <Button variant="outline" size="sm">
-                Login
-              </Button>
-              <Button size="sm">
-                Join Platform
-              </Button>
+              <Button variant="outline" size="sm">Login</Button>
+              <Button size="sm">Quero ser Franqueado</Button>
             </nav>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="pt-16 pb-20 px-4">
-        <div className="container mx-auto text-center max-w-4xl">
-          <div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Multi-Brand</span> Franchising
-              <br />
-              <span className="text-gray-800">Made Simple</span>
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Sell Alumni, TEACH, Sprix, JINSO, and Kidpreneurs with one unified platform. 
-              20% commission across all brands with intelligent territory management.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="xl" 
-                className="group"
-                onClick={() => setIsLoading(true)}
-              >
-                Start Your Journey
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-              <Button variant="outline" size="xl">
-                Watch Demo
-              </Button>
-            </div>
+      <section style={{ padding: '80px 24px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <h1 style={{ 
+            fontSize: '3.5rem', 
+            fontWeight: 'bold', 
+            marginBottom: '24px', 
+            lineHeight: '1.1' 
+          }}>
+            <span style={{ 
+              background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
+              WebkitBackgroundClip: 'text', 
+              backgroundClip: 'text', 
+              color: 'transparent' 
+            }}>
+              Multi-Brand
+            </span>{' '}
+            <span style={{ color: '#1E293B' }}>Franchising</span>
+            <br />
+            <span style={{ color: '#475569' }}>Made Simple</span>
+          </h1>
+          <p style={{ 
+            fontSize: '20px', 
+            color: '#64748B', 
+            marginBottom: '40px', 
+            maxWidth: '700px', 
+            margin: '0 auto 40px auto' 
+          }}>
+            Venda Alumni, TEACH, Sprix, JINSO e Kidpreneurs com uma plataforma unificada. 
+            20% de comissão em todas as marcas com gestão inteligente de território.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
+            <Button 
+              size="lg" 
+              style={{ 
+                padding: '12px 32px', 
+                fontSize: '16px',
+                background: 'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)',
+                border: 'none'
+              }}
+              onClick={() => setIsLoading(true)}
+            >
+              Começar Agora
+              <ArrowRight style={{ marginLeft: '8px', width: '20px', height: '20px' }} />
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section id="stats" className="py-16 px-4 bg-white/50">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((stat, index) => (
-              <Card key={stat.label} className="text-center hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="p-6">
-                  <div className="flex justify-center mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-                      <stat.icon className="h-6 w-6 text-white" />
-                    </div>
-                  </div>
-                  <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>
-                  <div className="text-sm text-gray-600">{stat.label}</div>
-                </CardContent>
+      <section style={{ padding: '60px 24px', backgroundColor: 'white' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+            gap: '24px' 
+          }}>
+            {stats.map((stat) => (
+              <Card key={stat.label} style={{ 
+                textAlign: 'center', 
+                padding: '32px 24px',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                cursor: 'pointer'
+              }}>
+                <div style={{ 
+                  width: '60px', 
+                  height: '60px', 
+                  background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
+                  borderRadius: '12px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  margin: '0 auto 16px auto' 
+                }}>
+                  <stat.icon style={{ width: '28px', height: '28px', color: 'white' }} />
+                </div>
+                <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#1E293B', marginBottom: '8px' }}>
+                  {stat.value}
+                </div>
+                <div style={{ fontSize: '14px', color: '#64748B' }}>
+                  {stat.label}
+                </div>
               </Card>
             ))}
           </div>
@@ -132,36 +202,80 @@ export default function Home() {
       </section>
 
       {/* Brands Section */}
-      <section id="brands" className="py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Our Brand Portfolio</span>
+      <section style={{ padding: '80px 24px', backgroundColor: '#F8FAFC' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <h2 style={{ 
+              fontSize: '2.5rem', 
+              fontWeight: 'bold', 
+              marginBottom: '16px',
+              background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
+              WebkitBackgroundClip: 'text', 
+              backgroundClip: 'text', 
+              color: 'transparent' 
+            }}>
+              Nosso Portfólio de Marcas
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Access multiple premium educational brands through one unified platform
+            <p style={{ fontSize: '18px', color: '#64748B', maxWidth: '600px', margin: '0 auto' }}>
+              Acesse múltiplas marcas educacionais premium através de uma plataforma unificada
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {brands.map((brand, index) => (
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+            gap: '24px' 
+          }}>
+            {brands.map((brand) => (
               <Card 
                 key={brand.name} 
-                className="hover:scale-105 transition-transform duration-200 overflow-hidden hover:shadow-xl"
+                style={{ 
+                  overflow: 'hidden',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)'
+                  e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+                }}
               >
-                <div className={`h-2 bg-gradient-to-r ${brand.color}`} />
-                <CardHeader className="pb-2">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-3xl">{brand.icon}</span>
+                <div style={{ height: '4px', background: brand.color }} />
+                <CardHeader>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <span style={{ fontSize: '32px' }}>{brand.icon}</span>
                     <div>
-                      <CardTitle className="text-xl">{brand.name}</CardTitle>
-                      <CardDescription className="text-sm">{brand.description}</CardDescription>
+                      <CardTitle style={{ fontSize: '20px', color: '#1E293B' }}>{brand.name}</CardTitle>
+                      <CardDescription style={{ color: '#64748B' }}>{brand.description}</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm text-gray-500">Commission Rate</div>
-                    <div className="text-lg font-semibold text-green-600">20%</div>
+                  <div style={{ marginBottom: '16px' }}>
+                    {brand.features.map((feature) => (
+                      <div key={feature} style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '8px', 
+                        marginBottom: '8px' 
+                      }}>
+                        <CheckCircle style={{ width: '16px', height: '16px', color: '#10B981' }} />
+                        <span style={{ fontSize: '14px', color: '#475569' }}>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center',
+                    padding: '12px 16px',
+                    backgroundColor: '#F1F5F9',
+                    borderRadius: '8px'
+                  }}>
+                    <span style={{ fontSize: '14px', color: '#64748B' }}>Comissão</span>
+                    <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#10B981' }}>20%</span>
                   </div>
                 </CardContent>
               </Card>
@@ -170,105 +284,154 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-20 px-4 bg-gradient-to-r from-blue-50 to-green-50">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Platform Features</span>
+      {/* Benefits Section */}
+      <section style={{ padding: '80px 24px', backgroundColor: 'white' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <h2 style={{ 
+              fontSize: '2.5rem', 
+              fontWeight: 'bold', 
+              marginBottom: '16px',
+              color: '#1E293B'
+            }}>
+              Por que Better Sell?
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Everything you need to succeed as a Better Tech franchisee
-            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {features.map((feature, index) => (
-              <Card key={feature.title} className="hover:shadow-lg transition-shadow duration-300">
-                <CardHeader>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-                      <feature.icon className="h-6 w-6 text-white" />
-                    </div>
-                    <CardTitle className="text-xl">{feature.title}</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+            gap: '32px' 
+          }}>
+            {benefits.map((benefit) => (
+              <div key={benefit.title} style={{ textAlign: 'center' }}>
+                <div style={{ 
+                  fontSize: '48px', 
+                  marginBottom: '16px',
+                  filter: 'grayscale(0.3)'
+                }}>
+                  {benefit.icon}
+                </div>
+                <h3 style={{ 
+                  fontSize: '20px', 
+                  fontWeight: 'bold', 
+                  marginBottom: '8px', 
+                  color: '#1E293B' 
+                }}>
+                  {benefit.title}
+                </h3>
+                <p style={{ fontSize: '16px', color: '#64748B' }}>
+                  {benefit.description}
+                </p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-green-600 text-white">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-4xl font-bold mb-6">
-            Ready to Join the Better Sell Network?
+      <section style={{ 
+        padding: '80px 24px', 
+        background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
+        color: 'white',
+        textAlign: 'center'
+      }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '24px' }}>
+            Pronto para se Tornar um Franqueado Better Sell?
           </h2>
-          <p className="text-xl mb-8 opacity-90">
-            Start selling multiple premium educational brands with our proven franchising system.
-            Fixed R$50k investment, 20% commission, and comprehensive support.
+          <p style={{ fontSize: '18px', marginBottom: '32px', opacity: 0.9 }}>
+            Comece a vender múltiplas marcas educacionais premium com nosso sistema de franquia comprovado.
+            Investimento de R$50k, comissão de 20%, e suporte completo.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="xl" variant="secondary">
-              Apply Now
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Button 
+              size="lg" 
+              style={{ 
+                backgroundColor: 'white', 
+                color: '#3B82F6', 
+                padding: '12px 32px',
+                fontSize: '16px'
+              }}
+            >
+              Candidatar-se Agora
             </Button>
-            <Button size="xl" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
-              Download Prospectus
+            <Button 
+              variant="outline" 
+              size="lg"
+              style={{ 
+                borderColor: 'white', 
+                color: 'white', 
+                padding: '12px 32px',
+                fontSize: '16px'
+              }}
+            >
+              Baixar Prospecto
             </Button>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <footer style={{ backgroundColor: '#1E293B', color: 'white', padding: '48px 24px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+            gap: '32px' 
+          }}>
             <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold">B</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                <div style={{ 
+                  width: '32px', 
+                  height: '32px', 
+                  background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
+                  borderRadius: '6px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center' 
+                }}>
+                  <span style={{ color: 'white', fontWeight: 'bold' }}>B</span>
                 </div>
-                <span className="text-xl font-bold">Better Sell</span>
+                <span style={{ fontSize: '18px', fontWeight: 'bold' }}>Better Sell</span>
               </div>
-              <p className="text-gray-400 text-sm">
-                Multi-brand franchising platform for the Better Tech ecosystem.
+              <p style={{ color: '#94A3B8', fontSize: '14px' }}>
+                Plataforma de franquias multi-marca para o ecossistema Better Tech.
               </p>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Platform</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link href="#" className="hover:text-white transition-colors">Dashboard</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Analytics</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Lead Management</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Commission Tracking</Link></li>
-              </ul>
+              <h3 style={{ fontWeight: '600', marginBottom: '16px' }}>Plataforma</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Link href="/dashboard" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Dashboard</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Analytics</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Gestão de Leads</Link>
+              </div>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Support</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link href="#" className="hover:text-white transition-colors">Help Center</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Training Materials</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Community Forum</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Contact Support</Link></li>
-              </ul>
+              <h3 style={{ fontWeight: '600', marginBottom: '16px' }}>Suporte</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Central de Ajuda</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Treinamentos</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Comunidade</Link>
+              </div>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Company</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link href="#" className="hover:text-white transition-colors">About Better Tech</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Terms of Service</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">LGPD Compliance</Link></li>
-              </ul>
+              <h3 style={{ fontWeight: '600', marginBottom: '16px' }}>Better Tech</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Sobre Nós</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Política de Privacidade</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Termos de Uso</Link>
+              </div>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-            <p>&copy; 2024 Better Tech. All rights reserved. Built with human-first AI philosophy.</p>
+          <div style={{ 
+            borderTop: '1px solid #334155', 
+            marginTop: '32px', 
+            paddingTop: '32px', 
+            textAlign: 'center' 
+          }}>
+            <p style={{ fontSize: '14px', color: '#94A3B8' }}>
+              &copy; 2024 Better Tech. Todos os direitos reservados. Construído com filosofia AI humana.
+            </p>
           </div>
         </div>
       </footer>
