@@ -53,12 +53,12 @@ export default function AdvancedFinancialPlanning() {
       support: 0.5
     },
     costs: {
-      salaries: 18000,
-      marketing: 8500,
-      infrastructure: 4200,
-      software: 1800,
-      training: 1200,
-      other: 2300
+      salaries: 8000,
+      marketing: 3000,
+      infrastructure: 2000,
+      software: 800,
+      training: 500,
+      other: 1200
     }
   })
 
@@ -77,8 +77,6 @@ export default function AdvancedFinancialPlanning() {
     const commission = yearlyRevenue * 0.20 // 20% commission rate
     const totalOperationalCosts = Object.values(operationalStructure.costs).reduce((sum, cost) => sum + cost, 0) * 12
     const yearlyProfit = commission - totalOperationalCosts
-    const roi = ((yearlyProfit * parameters.projectionYears - parameters.investmentInitial) / parameters.investmentInitial) * 100
-    const paybackPeriod = parameters.investmentInitial / (yearlyProfit / 12)
 
     // Growth projections
     const projections = []
@@ -98,6 +96,10 @@ export default function AdvancedFinancialPlanning() {
         margin: (yearProfit / yearCommission) * 100
       })
     }
+
+    const totalProfitOverYears = projections.reduce((sum, p) => sum + p.profit, 0)
+    const roi = totalProfitOverYears > 0 ? ((totalProfitOverYears - parameters.investmentInitial) / parameters.investmentInitial) * 100 : -100
+    const paybackPeriod = yearlyProfit > 0 ? parameters.investmentInitial / (yearlyProfit / 12) : 999
 
     return {
       monthlyRevenue,
