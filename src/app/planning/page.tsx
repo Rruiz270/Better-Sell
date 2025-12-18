@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { 
@@ -13,26 +13,23 @@ import {
   Download,
   Plus,
   Minus,
-  Info,
   ArrowUpRight,
-  ArrowDownRight,
-  Percent,
-  Calendar,
   Building,
-  Users
+  Users,
+  Settings,
+  Lightbulb,
+  Zap
 } from "lucide-react"
 import Link from "next/link"
 
-export default function AdvancedFinancialPlanning() {
+export default function ModernFinancialPlanning() {
   // Core Financial Parameters
   const [parameters, setParameters] = useState({
     investmentInitial: 50000,
-    averageTicket: 3500,
-    monthlySales: 15,
-    operationalCostPercent: 25,
+    averageTicket: 4800,
+    monthlySales: 18,
     projectionYears: 3,
-    territorySize: 'medium', // small, medium, large
-    marketPenetration: 8 // percentage
+    territorySize: 'medium'
   })
 
   // Brand Performance Mix
@@ -46,12 +43,6 @@ export default function AdvancedFinancialPlanning() {
 
   // Operational Structure
   const [operationalStructure, setOperationalStructure] = useState({
-    team: {
-      manager: 1,
-      salesReps: 2,
-      marketing: 1,
-      support: 0.5
-    },
     costs: {
       salaries: 5000,
       marketing: 2000,
@@ -64,9 +55,9 @@ export default function AdvancedFinancialPlanning() {
 
   // Territory Analysis
   const territoryData = {
-    small: { population: 150000, schools: 45, corporations: 180, leads: 120 },
-    medium: { population: 500000, schools: 120, corporations: 450, leads: 300 },
-    large: { population: 1200000, schools: 280, corporations: 850, leads: 680 }
+    small: { population: 150000, schools: 45, corporations: 180 },
+    medium: { population: 500000, schools: 120, corporations: 450 },
+    large: { population: 1200000, schools: 280, corporations: 850 }
   }
 
   // Financial Calculations
@@ -74,17 +65,17 @@ export default function AdvancedFinancialPlanning() {
     const territory = territoryData[parameters.territorySize as keyof typeof territoryData]
     const monthlyRevenue = parameters.monthlySales * parameters.averageTicket
     const yearlyRevenue = monthlyRevenue * 12
-    const commission = yearlyRevenue * 0.20 // 20% commission rate
+    const commission = yearlyRevenue * 0.20
     const totalOperationalCosts = Object.values(operationalStructure.costs).reduce((sum, cost) => sum + cost, 0) * 12
     const yearlyProfit = commission - totalOperationalCosts
 
     // Growth projections
     const projections = []
     for (let year = 1; year <= parameters.projectionYears; year++) {
-      const growthFactor = Math.pow(1.15, year - 1) // 15% annual growth
+      const growthFactor = Math.pow(1.15, year - 1)
       const yearRevenue = yearlyRevenue * growthFactor
       const yearCommission = yearRevenue * 0.20
-      const yearCosts = totalOperationalCosts * Math.pow(1.08, year - 1) // 8% cost inflation
+      const yearCosts = totalOperationalCosts * Math.pow(1.08, year - 1)
       const yearProfit = yearCommission - yearCosts
       
       projections.push({
@@ -116,20 +107,6 @@ export default function AdvancedFinancialPlanning() {
 
   const financial = calculateFinancialProjections()
 
-  // Brand Revenue Distribution
-  const calculateBrandRevenue = () => {
-    return Object.entries(brandMix).map(([brand, data]) => ({
-      brand,
-      percentage: data.percentage,
-      monthlyRevenue: (financial.monthlyRevenue * data.percentage) / 100,
-      yearlyRevenue: (financial.yearlyRevenue * data.percentage) / 100,
-      averageTicket: data.averageTicket,
-      conversionRate: data.conversionRate
-    }))
-  }
-
-  const brandRevenue = calculateBrandRevenue()
-
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', { 
       style: 'currency', 
@@ -147,13 +124,6 @@ export default function AdvancedFinancialPlanning() {
     setParameters(prev => ({ ...prev, [key]: value }))
   }
 
-  const updateBrandMix = (brand: string, field: string, value: number) => {
-    setBrandMix(prev => ({
-      ...prev,
-      [brand]: { ...(prev as any)[brand], [field]: value }
-    }))
-  }
-
   const updateOperationalCost = (category: string, value: number) => {
     setOperationalStructure(prev => ({
       ...prev,
@@ -167,7 +137,6 @@ export default function AdvancedFinancialPlanning() {
       brandMix,
       operationalStructure,
       financial,
-      brandRevenue,
       generatedAt: new Date().toISOString()
     }
     
@@ -180,64 +149,101 @@ export default function AdvancedFinancialPlanning() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#FAFBFC' }}>
-      {/* Advanced Header */}
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' }}>
+      
+      {/* Modern Header */}
       <div style={{ 
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white',
-        padding: '40px 0'
+        padding: '60px 0',
+        position: 'relative',
+        overflow: 'hidden'
       }}>
-        <div style={{ maxWidth: '1600px', margin: '0 auto', padding: '0 32px' }}>
+        {/* Background Pattern */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: 'radial-gradient(circle at 25px 25px, rgba(255,255,255,0.1) 2px, transparent 0)',
+          backgroundSize: '50px 50px'
+        }} />
+        
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 32px', position: 'relative' }}>
           <Link href="/" style={{ 
             display: 'inline-flex', 
             alignItems: 'center', 
-            gap: '12px', 
+            gap: '16px', 
             textDecoration: 'none',
             color: 'white',
-            marginBottom: '16px'
+            marginBottom: '32px'
           }}>
             <div style={{ 
-              width: '40px', 
-              height: '40px', 
-              background: 'rgba(255, 255, 255, 0.2)', 
-              borderRadius: '8px', 
+              width: '48px', 
+              height: '48px', 
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)', 
+              borderRadius: '12px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
-              backdropFilter: 'blur(10px)'
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255,255,255,0.2)'
             }}>
-              <span style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}>B</span>
+              <span style={{ color: 'white', fontWeight: '700', fontSize: '20px' }}>B</span>
             </div>
-            <span style={{ fontSize: '20px', fontWeight: '600' }}>Better Sell</span>
+            <span style={{ fontSize: '24px', fontWeight: '700' }}>Better Sell</span>
           </Link>
           
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px' }}>
             <div>
-              <h1 style={{ fontSize: '42px', fontWeight: '700', margin: '0 0 8px 0' }}>
-                Modelo Financeiro Avançado Better Sell
+              <h1 style={{ 
+                fontSize: '48px', 
+                fontWeight: '800', 
+                margin: '0 0 12px 0',
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%)',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                color: 'transparent'
+              }}>
+                Planejamento Financeiro
               </h1>
-              <p style={{ fontSize: '18px', opacity: 0.9, margin: 0 }}>
-                Análise completa de viabilidade e projeções para sua franquia Better Sell
+              <p style={{ 
+                fontSize: '20px', 
+                color: 'rgba(255,255,255,0.9)', 
+                margin: 0,
+                maxWidth: '600px'
+              }}>
+                Modelo financeiro inteligente para análise completa de ROI, projeções e viabilidade da sua franquia Better Sell
               </p>
             </div>
-            <div style={{ display: 'flex', gap: '12px' }}>
+            
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
               <Button 
                 onClick={exportFinancialModel}
                 style={{ 
-                  backgroundColor: 'rgba(255, 255, 255, 0.15)', 
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)',
                   color: 'white',
-                  border: '1px solid rgba(255, 255, 255, 0.3)'
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  backdropFilter: 'blur(10px)',
+                  padding: '12px 24px',
+                  fontSize: '16px',
+                  fontWeight: '600'
                 }}
               >
-                <Download style={{ width: '16px', height: '16px', marginRight: '8px' }} />
+                <Download style={{ width: '18px', height: '18px', marginRight: '8px' }} />
                 Exportar Modelo
               </Button>
               <Link href="/business-plan">
                 <Button style={{ 
-                  backgroundColor: 'white', 
-                  color: '#667eea' 
+                  background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)', 
+                  color: '#667eea',
+                  border: 'none',
+                  padding: '12px 24px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  boxShadow: '0 8px 32px rgba(255,255,255,0.3)'
                 }}>
-                  <Building style={{ width: '16px', height: '16px', marginRight: '8px' }} />
+                  <Building style={{ width: '18px', height: '18px', marginRight: '8px' }} />
                   Plano de Negócios
                 </Button>
               </Link>
@@ -246,523 +252,775 @@ export default function AdvancedFinancialPlanning() {
         </div>
       </div>
 
-      <div style={{ maxWidth: '1600px', margin: '0 auto', padding: '32px' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '40px 32px' }}>
         
-        {/* Key Performance Indicators */}
+        {/* Modern KPI Cards */}
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
           gap: '24px',
-          marginBottom: '40px'
+          marginBottom: '48px'
         }}>
           <Card style={{ 
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-            color: 'white',
-            border: 'none'
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            border: 'none',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            position: 'relative'
           }}>
-            <CardContent style={{ padding: '32px' }}>
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              width: '100px',
+              height: '100px',
+              background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+              borderRadius: '50%',
+              transform: 'translate(30px, -30px)'
+            }} />
+            <CardContent style={{ padding: '32px', color: 'white', position: 'relative' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <p style={{ fontSize: '14px', opacity: 0.8, margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  <p style={{ 
+                    fontSize: '14px', 
+                    opacity: 0.8, 
+                    margin: '0 0 8px 0', 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '1.5px',
+                    fontWeight: '600'
+                  }}>
                     ROI Projetado ({parameters.projectionYears} anos)
                   </p>
-                  <p style={{ fontSize: '36px', fontWeight: '700', margin: '0 0 4px 0' }}>
+                  <p style={{ fontSize: '42px', fontWeight: '800', margin: '0 0 8px 0' }}>
                     {formatPercent(financial.roi)}
                   </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <ArrowUpRight style={{ width: '16px', height: '16px' }} />
-                    <span style={{ fontSize: '12px', opacity: 0.8 }}>
+                    <span style={{ fontSize: '14px', opacity: 0.9 }}>
                       Payback: {financial.paybackPeriod.toFixed(1)} meses
                     </span>
                   </div>
                 </div>
-                <TrendingUp style={{ width: '48px', height: '48px', opacity: 0.6 }} />
+                <div style={{ 
+                  width: '60px', 
+                  height: '60px',
+                  background: 'rgba(255,255,255,0.2)',
+                  borderRadius: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <TrendingUp style={{ width: '28px', height: '28px' }} />
+                </div>
               </div>
             </CardContent>
           </Card>
 
           <Card style={{ 
-            background: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)', 
-            color: 'white',
-            border: 'none'
+            background: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+            border: 'none',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            position: 'relative'
           }}>
-            <CardContent style={{ padding: '32px' }}>
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              width: '100px',
+              height: '100px',
+              background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+              borderRadius: '50%',
+              transform: 'translate(30px, -30px)'
+            }} />
+            <CardContent style={{ padding: '32px', color: 'white', position: 'relative' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <p style={{ fontSize: '14px', opacity: 0.8, margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  <p style={{ 
+                    fontSize: '14px', 
+                    opacity: 0.8, 
+                    margin: '0 0 8px 0', 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '1.5px',
+                    fontWeight: '600'
+                  }}>
                     Lucro Anual Projetado
                   </p>
-                  <p style={{ fontSize: '36px', fontWeight: '700', margin: '0 0 4px 0' }}>
+                  <p style={{ fontSize: '42px', fontWeight: '800', margin: '0 0 8px 0' }}>
                     {formatCurrency(financial.yearlyProfit)}
                   </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <ArrowUpRight style={{ width: '16px', height: '16px' }} />
-                    <span style={{ fontSize: '12px', opacity: 0.8 }}>
+                    <span style={{ fontSize: '14px', opacity: 0.9 }}>
                       Margem: {formatPercent((financial.yearlyProfit / financial.commission) * 100)}
                     </span>
                   </div>
                 </div>
-                <DollarSign style={{ width: '48px', height: '48px', opacity: 0.6 }} />
+                <div style={{ 
+                  width: '60px', 
+                  height: '60px',
+                  background: 'rgba(255,255,255,0.2)',
+                  borderRadius: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <DollarSign style={{ width: '28px', height: '28px' }} />
+                </div>
               </div>
             </CardContent>
           </Card>
 
           <Card style={{ 
-            background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', 
-            color: 'white',
-            border: 'none'
+            background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+            border: 'none',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            position: 'relative'
           }}>
-            <CardContent style={{ padding: '32px' }}>
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              width: '100px',
+              height: '100px',
+              background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+              borderRadius: '50%',
+              transform: 'translate(30px, -30px)'
+            }} />
+            <CardContent style={{ padding: '32px', color: 'white', position: 'relative' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <p style={{ fontSize: '14px', opacity: 0.8, margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  <p style={{ 
+                    fontSize: '14px', 
+                    opacity: 0.8, 
+                    margin: '0 0 8px 0', 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '1.5px',
+                    fontWeight: '600'
+                  }}>
                     Receita Anual
                   </p>
-                  <p style={{ fontSize: '36px', fontWeight: '700', margin: '0 0 4px 0' }}>
+                  <p style={{ fontSize: '42px', fontWeight: '800', margin: '0 0 8px 0' }}>
                     {formatCurrency(financial.yearlyRevenue)}
                   </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <span style={{ fontSize: '12px', opacity: 0.8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '14px', opacity: 0.9 }}>
                       {parameters.monthlySales} vendas/mês × {formatCurrency(parameters.averageTicket)}
                     </span>
                   </div>
                 </div>
-                <BarChart3 style={{ width: '48px', height: '48px', opacity: 0.6 }} />
+                <div style={{ 
+                  width: '60px', 
+                  height: '60px',
+                  background: 'rgba(255,255,255,0.2)',
+                  borderRadius: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <BarChart3 style={{ width: '28px', height: '28px' }} />
+                </div>
               </div>
             </CardContent>
           </Card>
 
           <Card style={{ 
-            background: 'linear-gradient(135deg, #fc466b 0%, #3f5efb 100%)', 
-            color: 'white',
-            border: 'none'
+            background: 'linear-gradient(135deg, #fc466b 0%, #3f5efb 100%)',
+            border: 'none',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            position: 'relative'
           }}>
-            <CardContent style={{ padding: '32px' }}>
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              width: '100px',
+              height: '100px',
+              background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+              borderRadius: '50%',
+              transform: 'translate(30px, -30px)'
+            }} />
+            <CardContent style={{ padding: '32px', color: 'white', position: 'relative' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <p style={{ fontSize: '14px', opacity: 0.8, margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  <p style={{ 
+                    fontSize: '14px', 
+                    opacity: 0.8, 
+                    margin: '0 0 8px 0', 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '1.5px',
+                    fontWeight: '600'
+                  }}>
                     Território ({parameters.territorySize})
                   </p>
-                  <p style={{ fontSize: '36px', fontWeight: '700', margin: '0 0 4px 0' }}>
+                  <p style={{ fontSize: '42px', fontWeight: '800', margin: '0 0 8px 0' }}>
                     {financial.territory.population.toLocaleString('pt-BR')}
                   </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <span style={{ fontSize: '12px', opacity: 0.8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '14px', opacity: 0.9 }}>
                       {financial.territory.schools} escolas, {financial.territory.corporations} empresas
                     </span>
                   </div>
                 </div>
-                <Target style={{ width: '48px', height: '48px', opacity: 0.6 }} />
+                <div style={{ 
+                  width: '60px', 
+                  height: '60px',
+                  background: 'rgba(255,255,255,0.2)',
+                  borderRadius: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Target style={{ width: '28px', height: '28px' }} />
+                </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Main Configuration Panel */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 3fr', gap: '32px', marginBottom: '40px' }}>
+        {/* Modern Control Panel */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', marginBottom: '48px' }}>
           
-          {/* Parameters Configuration */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '18px' }}>
-                  <Calculator style={{ width: '20px', height: '20px' }} />
-                  Parâmetros Principais
-                </CardTitle>
-              </CardHeader>
-              <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                
-                <div>
-                  <label style={{ fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '12px', display: 'block' }}>
+          {/* Beautiful Parameters Section */}
+          <Card style={{ 
+            borderRadius: '24px', 
+            border: 'none',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
+            backdropFilter: 'blur(20px)',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
+          }}>
+            <CardHeader style={{ paddingBottom: '16px' }}>
+              <CardTitle style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '12px', 
+                fontSize: '24px',
+                fontWeight: '700',
+                color: '#2d3748'
+              }}>
+                <div style={{ 
+                  width: '48px', 
+                  height: '48px',
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Settings style={{ width: '24px', height: '24px', color: 'white' }} />
+                </div>
+                Parâmetros do Negócio
+              </CardTitle>
+            </CardHeader>
+            <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+              
+              {/* Investment Slider */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <label style={{ 
+                    fontSize: '16px', 
+                    fontWeight: '600', 
+                    color: '#4a5568'
+                  }}>
                     Investimento Inicial
                   </label>
-                  <div style={{ position: 'relative' }}>
-                    <input
-                      type="range"
-                      min="30000"
-                      max="100000"
-                      step="5000"
-                      value={parameters.investmentInitial}
-                      onChange={(e) => updateParameter('investmentInitial', Number(e.target.value))}
-                      style={{ width: '100%', marginBottom: '8px' }}
-                    />
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#6B7280' }}>
-                      <span>R$ 30k</span>
-                      <span style={{ fontWeight: '600', color: '#667eea' }}>{formatCurrency(parameters.investmentInitial)}</span>
-                      <span>R$ 100k</span>
-                    </div>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    color: 'white',
+                    padding: '8px 16px',
+                    borderRadius: '20px',
+                    fontSize: '14px',
+                    fontWeight: '700'
+                  }}>
+                    {formatCurrency(parameters.investmentInitial)}
                   </div>
                 </div>
-
-                <div>
-                  <label style={{ fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '12px', display: 'block' }}>
-                    Ticket Médio por Venda
-                  </label>
-                  <div style={{ position: 'relative' }}>
-                    <input
-                      type="range"
-                      min="1500"
-                      max="8000"
-                      step="100"
-                      value={parameters.averageTicket}
-                      onChange={(e) => updateParameter('averageTicket', Number(e.target.value))}
-                      style={{ width: '100%', marginBottom: '8px' }}
-                    />
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#6B7280' }}>
-                      <span>R$ 1.5k</span>
-                      <span style={{ fontWeight: '600', color: '#667eea' }}>{formatCurrency(parameters.averageTicket)}</span>
-                      <span>R$ 8k</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label style={{ fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '12px', display: 'block' }}>
-                    Vendas Mensais
-                  </label>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => updateParameter('monthlySales', Math.max(5, parameters.monthlySales - 1))}
-                    >
-                      <Minus style={{ width: '14px', height: '14px' }} />
-                    </Button>
-                    <div style={{ 
-                      padding: '12px 24px', 
-                      backgroundColor: '#F3F4F6', 
-                      borderRadius: '8px',
-                      fontWeight: '700',
-                      fontSize: '18px',
-                      minWidth: '80px',
-                      textAlign: 'center',
-                      color: '#667eea'
-                    }}>
-                      {parameters.monthlySales}
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => updateParameter('monthlySales', Math.min(50, parameters.monthlySales + 1))}
-                    >
-                      <Plus style={{ width: '14px', height: '14px' }} />
-                    </Button>
-                  </div>
-                </div>
-
-                <div>
-                  <label style={{ fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '12px', display: 'block' }}>
-                    Tamanho do Território
-                  </label>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
-                    {['small', 'medium', 'large'].map(size => (
-                      <Button
-                        key={size}
-                        variant={parameters.territorySize === size ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => updateParameter('territorySize', size)}
-                        style={{ 
-                          textTransform: 'capitalize',
-                          backgroundColor: parameters.territorySize === size ? '#667eea' : 'transparent',
-                          color: parameters.territorySize === size ? 'white' : '#667eea'
-                        }}
-                      >
-                        {size === 'small' ? 'Pequeno' : size === 'medium' ? 'Médio' : 'Grande'}
-                      </Button>
-                    ))}
-                  </div>
-                  <p style={{ fontSize: '12px', color: '#6B7280', marginTop: '8px' }}>
-                    {parameters.territorySize === 'small' && 'Cidades até 200k habitantes'}
-                    {parameters.territorySize === 'medium' && 'Cidades de 200k a 800k habitantes'}
-                    {parameters.territorySize === 'large' && 'Cidades acima de 800k habitantes'}
-                  </p>
-                </div>
-
-                <div>
-                  <label style={{ fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '12px', display: 'block' }}>
-                    Período de Projeção
-                  </label>
-                  <select
-                    value={parameters.projectionYears}
-                    onChange={(e) => updateParameter('projectionYears', Number(e.target.value))}
+                <div style={{ position: 'relative', marginBottom: '8px' }}>
+                  <input
+                    type="range"
+                    min="30000"
+                    max="100000"
+                    step="5000"
+                    value={parameters.investmentInitial}
+                    onChange={(e) => updateParameter('investmentInitial', Number(e.target.value))}
                     style={{
                       width: '100%',
-                      padding: '12px',
-                      border: '2px solid #E5E7EB',
-                      borderRadius: '8px',
-                      fontSize: '14px',
-                      fontWeight: '500'
+                      height: '8px',
+                      borderRadius: '4px',
+                      background: 'linear-gradient(to right, #667eea 0%, #764ba2 100%)',
+                      outline: 'none',
+                      appearance: 'none',
+                      cursor: 'pointer'
+                    }}
+                  />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#a0aec0' }}>
+                  <span>R$ 30k</span>
+                  <span>R$ 100k</span>
+                </div>
+              </div>
+
+              {/* Ticket Slider */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <label style={{ 
+                    fontSize: '16px', 
+                    fontWeight: '600', 
+                    color: '#4a5568'
+                  }}>
+                    Ticket Médio por Venda
+                  </label>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+                    color: 'white',
+                    padding: '8px 16px',
+                    borderRadius: '20px',
+                    fontSize: '14px',
+                    fontWeight: '700'
+                  }}>
+                    {formatCurrency(parameters.averageTicket)}
+                  </div>
+                </div>
+                <div style={{ position: 'relative', marginBottom: '8px' }}>
+                  <input
+                    type="range"
+                    min="2000"
+                    max="8000"
+                    step="100"
+                    value={parameters.averageTicket}
+                    onChange={(e) => updateParameter('averageTicket', Number(e.target.value))}
+                    style={{
+                      width: '100%',
+                      height: '8px',
+                      borderRadius: '4px',
+                      background: 'linear-gradient(to right, #11998e 0%, #38ef7d 100%)',
+                      outline: 'none',
+                      appearance: 'none',
+                      cursor: 'pointer'
+                    }}
+                  />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#a0aec0' }}>
+                  <span>R$ 2k</span>
+                  <span>R$ 8k</span>
+                </div>
+              </div>
+
+              {/* Sales Counter */}
+              <div>
+                <label style={{ 
+                  fontSize: '16px', 
+                  fontWeight: '600', 
+                  color: '#4a5568',
+                  marginBottom: '16px',
+                  display: 'block'
+                }}>
+                  Vendas Mensais
+                </label>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  gap: '20px',
+                  background: 'linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%)',
+                  padding: '20px',
+                  borderRadius: '16px',
+                  border: '2px solid #e2e8f0'
+                }}>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => updateParameter('monthlySales', Math.max(5, parameters.monthlySales - 1))}
+                    style={{
+                      width: '48px',
+                      height: '48px',
+                      borderRadius: '12px',
+                      border: '2px solid #cbd5e0',
+                      background: 'white',
+                      color: '#4a5568'
                     }}
                   >
-                    <option value={1}>1 ano</option>
-                    <option value={2}>2 anos</option>
-                    <option value={3}>3 anos</option>
-                    <option value={5}>5 anos</option>
-                  </select>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '18px' }}>
-                  <Users style={{ width: '20px', height: '20px' }} />
-                  Custos Operacionais
-                </CardTitle>
-              </CardHeader>
-              <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {Object.entries(operationalStructure.costs).map(([category, value]) => (
-                  <div key={category} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '14px', fontWeight: '500', color: '#374151', textTransform: 'capitalize' }}>
-                      {category === 'salaries' ? 'Salários' :
-                       category === 'marketing' ? 'Marketing' :
-                       category === 'infrastructure' ? 'Infraestrutura' :
-                       category === 'software' ? 'Software/Tech' :
-                       category === 'training' ? 'Treinamento' : 'Outros'}
-                    </span>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => updateOperationalCost(category, Math.max(500, value - 500))}
-                      >
-                        <Minus style={{ width: '12px', height: '12px' }} />
-                      </Button>
-                      <span style={{ 
-                        padding: '4px 12px', 
-                        backgroundColor: '#F3F4F6', 
-                        borderRadius: '6px',
-                        fontSize: '13px',
-                        fontWeight: '600',
-                        minWidth: '90px',
-                        textAlign: 'center',
-                        color: '#374151'
-                      }}>
-                        {formatCurrency(value)}
-                      </span>
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => updateOperationalCost(category, value + 500)}
-                      >
-                        <Plus style={{ width: '12px', height: '12px' }} />
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-                
-                <div style={{ 
-                  borderTop: '2px solid #E5E7EB', 
-                  paddingTop: '16px', 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  alignItems: 'center' 
-                }}>
-                  <span style={{ fontSize: '16px', fontWeight: '700', color: '#1F2937' }}>Total Mensal</span>
-                  <span style={{ 
-                    fontSize: '18px', 
-                    fontWeight: '700', 
-                    color: '#667eea',
-                    backgroundColor: '#EEF2FF',
-                    padding: '8px 16px',
-                    borderRadius: '8px'
+                    <Minus style={{ width: '20px', height: '20px' }} />
+                  </Button>
+                  <div style={{ 
+                    padding: '16px 32px', 
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    color: 'white',
+                    borderRadius: '16px',
+                    fontWeight: '800',
+                    fontSize: '32px',
+                    minWidth: '120px',
+                    textAlign: 'center',
+                    boxShadow: '0 8px 32px rgba(102, 126, 234, 0.4)'
                   }}>
-                    {formatCurrency(Object.values(operationalStructure.costs).reduce((sum, cost) => sum + cost, 0))}
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Brand Performance & Projections */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '18px' }}>
-                  <PieChart style={{ width: '20px', height: '20px' }} />
-                  Performance por Marca
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  {brandRevenue.map((brand) => (
-                    <div key={brand.brand} style={{ 
-                      padding: '20px',
-                      border: '2px solid #F3F4F6',
+                    {parameters.monthlySales}
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => updateParameter('monthlySales', Math.min(50, parameters.monthlySales + 1))}
+                    style={{
+                      width: '48px',
+                      height: '48px',
                       borderRadius: '12px',
-                      backgroundColor: '#FAFBFC'
+                      border: '2px solid #cbd5e0',
+                      background: 'white',
+                      color: '#4a5568'
+                    }}
+                  >
+                    <Plus style={{ width: '20px', height: '20px' }} />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Territory Selection */}
+              <div>
+                <label style={{ 
+                  fontSize: '16px', 
+                  fontWeight: '600', 
+                  color: '#4a5568',
+                  marginBottom: '16px',
+                  display: 'block'
+                }}>
+                  Tamanho do Território
+                </label>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+                  {[
+                    { key: 'small', label: 'Pequeno', desc: '150k hab' },
+                    { key: 'medium', label: 'Médio', desc: '500k hab' },
+                    { key: 'large', label: 'Grande', desc: '1.2M hab' }
+                  ].map(size => (
+                    <Button
+                      key={size.key}
+                      variant={parameters.territorySize === size.key ? "default" : "outline"}
+                      onClick={() => updateParameter('territorySize', size.key)}
+                      style={{ 
+                        padding: '16px 12px',
+                        flexDirection: 'column',
+                        height: 'auto',
+                        background: parameters.territorySize === size.key 
+                          ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
+                          : 'white',
+                        color: parameters.territorySize === size.key ? 'white' : '#4a5568',
+                        border: parameters.territorySize === size.key 
+                          ? 'none' 
+                          : '2px solid #e2e8f0',
+                        boxShadow: parameters.territorySize === size.key 
+                          ? '0 8px 32px rgba(102, 126, 234, 0.4)' 
+                          : 'none'
+                      }}
+                    >
+                      <span style={{ fontWeight: '700', fontSize: '14px' }}>{size.label}</span>
+                      <span style={{ fontSize: '12px', opacity: 0.7 }}>{size.desc}</span>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+            </CardContent>
+          </Card>
+
+          {/* Beautiful Brand Performance */}
+          <Card style={{ 
+            borderRadius: '24px', 
+            border: 'none',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
+            backdropFilter: 'blur(20px)',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
+          }}>
+            <CardHeader style={{ paddingBottom: '16px' }}>
+              <CardTitle style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '12px', 
+                fontSize: '24px',
+                fontWeight: '700',
+                color: '#2d3748'
+              }}>
+                <div style={{ 
+                  width: '48px', 
+                  height: '48px',
+                  background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <PieChart style={{ width: '24px', height: '24px', color: 'white' }} />
+                </div>
+                Performance por Marca
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                {Object.entries(brandMix).map(([brand, data]) => {
+                  const brandRevenue = (financial.yearlyRevenue * data.percentage) / 100
+                  return (
+                    <div key={brand} style={{ 
+                      padding: '24px',
+                      borderRadius: '16px',
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(248,249,250,0.8) 100%)',
+                      border: '1px solid rgba(226, 232, 240, 0.8)',
+                      backdropFilter: 'blur(10px)'
                     }}>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          <span style={{ fontSize: '24px' }}>
-                            {brand.brand === 'alumni' ? '🎓' :
-                             brand.brand === 'teach' ? '🤖' :
-                             brand.brand === 'sprix' ? '💻' :
-                             brand.brand === 'jinso' ? '📱' : '👶'}
-                          </span>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                          <div style={{
+                            width: '52px',
+                            height: '52px',
+                            borderRadius: '16px',
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '24px'
+                          }}>
+                            {brand === 'alumni' ? '🎓' :
+                             brand === 'teach' ? '🤖' :
+                             brand === 'sprix' ? '💻' :
+                             brand === 'jinso' ? '📱' : '👶'}
+                          </div>
                           <div>
                             <h3 style={{ 
-                              fontSize: '16px', 
+                              fontSize: '18px', 
                               fontWeight: '700', 
                               textTransform: 'capitalize', 
-                              color: '#1F2937',
-                              margin: 0
+                              color: '#2d3748',
+                              margin: '0 0 4px 0'
                             }}>
-                              {brand.brand}
+                              {brand}
                             </h3>
-                            <p style={{ fontSize: '12px', color: '#6B7280', margin: 0 }}>
-                              Taxa conversão: {(brandMix as any)[brand.brand].conversionRate}%
+                            <p style={{ fontSize: '14px', color: '#718096', margin: 0 }}>
+                              {data.conversionRate}% conversão • {formatCurrency(data.averageTicket)} ticket
                             </p>
                           </div>
                         </div>
                         <div style={{ textAlign: 'right' }}>
-                          <p style={{ fontSize: '18px', fontWeight: '700', color: '#667eea', margin: 0 }}>
-                            {formatPercent(brand.percentage)}
+                          <p style={{ fontSize: '24px', fontWeight: '800', color: '#667eea', margin: '0 0 4px 0' }}>
+                            {data.percentage}%
                           </p>
-                          <p style={{ fontSize: '14px', color: '#374151', margin: 0 }}>
-                            {formatCurrency(brand.yearlyRevenue)}
+                          <p style={{ fontSize: '14px', color: '#4a5568', margin: 0 }}>
+                            {formatCurrency(brandRevenue)}
                           </p>
                         </div>
                       </div>
                       
-                      <div style={{ marginBottom: '12px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
-                          <span>Participação</span>
-                          <span>{brand.percentage}%</span>
-                        </div>
+                      <div style={{ marginBottom: '16px' }}>
                         <div style={{ 
                           width: '100%', 
-                          backgroundColor: '#E5E7EB', 
-                          borderRadius: '4px', 
-                          height: '8px',
+                          backgroundColor: '#f1f5f9', 
+                          borderRadius: '8px', 
+                          height: '12px',
                           overflow: 'hidden'
                         }}>
                           <div style={{ 
-                            width: `${brand.percentage}%`, 
-                            background: `linear-gradient(90deg, #667eea 0%, #764ba2 100%)`, 
-                            height: '8px', 
-                            borderRadius: '4px' 
+                            width: `${data.percentage}%`, 
+                            background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)', 
+                            height: '12px',
+                            borderRadius: '8px',
+                            transition: 'width 0.3s ease'
                           }} />
                         </div>
                       </div>
-
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '12px' }}>
-                        <div>
-                          <span style={{ color: '#6B7280' }}>Ticket Médio:</span>
-                          <br />
-                          <span style={{ fontWeight: '600', color: '#374151' }}>{formatCurrency(brand.averageTicket)}</span>
-                        </div>
-                        <div>
-                          <span style={{ color: '#6B7280' }}>Receita Mensal:</span>
-                          <br />
-                          <span style={{ fontWeight: '600', color: '#374151' }}>{formatCurrency(brand.monthlyRevenue)}</span>
-                        </div>
-                      </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '18px' }}>
-                  <BarChart3 style={{ width: '20px', height: '20px' }} />
-                  Projeção Financeira ({parameters.projectionYears} anos)
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div style={{ overflowX: 'auto' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead>
-                      <tr style={{ backgroundColor: '#F8FAFC' }}>
-                        <th style={{ padding: '12px', textAlign: 'left', fontSize: '12px', fontWeight: '700', color: '#374151' }}>Ano</th>
-                        <th style={{ padding: '12px', textAlign: 'right', fontSize: '12px', fontWeight: '700', color: '#374151' }}>Receita</th>
-                        <th style={{ padding: '12px', textAlign: 'right', fontSize: '12px', fontWeight: '700', color: '#374151' }}>Comissão (20%)</th>
-                        <th style={{ padding: '12px', textAlign: 'right', fontSize: '12px', fontWeight: '700', color: '#374151' }}>Custos</th>
-                        <th style={{ padding: '12px', textAlign: 'right', fontSize: '12px', fontWeight: '700', color: '#374151' }}>Lucro</th>
-                        <th style={{ padding: '12px', textAlign: 'right', fontSize: '12px', fontWeight: '700', color: '#374151' }}>Margem</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {financial.projections.map((projection) => (
-                        <tr key={projection.year} style={{ borderBottom: '1px solid #F3F4F6' }}>
-                          <td style={{ padding: '12px', fontSize: '14px', fontWeight: '600' }}>
-                            Ano {projection.year}
-                          </td>
-                          <td style={{ padding: '12px', textAlign: 'right', fontSize: '14px', fontWeight: '500' }}>
-                            {formatCurrency(projection.revenue)}
-                          </td>
-                          <td style={{ padding: '12px', textAlign: 'right', fontSize: '14px', fontWeight: '500', color: '#059669' }}>
-                            {formatCurrency(projection.commission)}
-                          </td>
-                          <td style={{ padding: '12px', textAlign: 'right', fontSize: '14px', fontWeight: '500', color: '#DC2626' }}>
-                            {formatCurrency(projection.costs)}
-                          </td>
-                          <td style={{ 
-                            padding: '12px', 
-                            textAlign: 'right', 
-                            fontSize: '14px', 
-                            fontWeight: '700',
-                            color: projection.profit > 0 ? '#059669' : '#DC2626' 
-                          }}>
-                            {formatCurrency(projection.profit)}
-                          </td>
-                          <td style={{ 
-                            padding: '12px', 
-                            textAlign: 'right', 
-                            fontSize: '14px', 
-                            fontWeight: '600',
-                            color: projection.margin > 20 ? '#059669' : projection.margin > 10 ? '#F59E0B' : '#DC2626'
-                          }}>
-                            {formatPercent(projection.margin)}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div style={{ 
-                  marginTop: '20px',
-                  padding: '16px',
-                  backgroundColor: '#EEF2FF',
-                  borderRadius: '8px',
-                  border: '1px solid #C7D2FE'
-                }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', textAlign: 'center' }}>
-                    <div>
-                      <p style={{ fontSize: '12px', color: '#6366F1', fontWeight: '600', margin: '0 0 4px 0' }}>
-                        LUCRO TOTAL
-                      </p>
-                      <p style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937', margin: 0 }}>
-                        {formatCurrency(financial.projections.reduce((sum, p) => sum + p.profit, 0))}
-                      </p>
-                    </div>
-                    <div>
-                      <p style={{ fontSize: '12px', color: '#6366F1', fontWeight: '600', margin: '0 0 4px 0' }}>
-                        ROI TOTAL
-                      </p>
-                      <p style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937', margin: 0 }}>
-                        {formatPercent(financial.roi)}
-                      </p>
-                    </div>
-                    <div>
-                      <p style={{ fontSize: '12px', color: '#6366F1', fontWeight: '600', margin: '0 0 4px 0' }}>
-                        PAYBACK
-                      </p>
-                      <p style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937', margin: 0 }}>
-                        {financial.paybackPeriod.toFixed(1)} meses
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                  )
+                })}
+              </div>
+            </CardContent>
+          </Card>
         </div>
+
+        {/* Modern Projections Table */}
+        <Card style={{ 
+          borderRadius: '24px', 
+          border: 'none',
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%)',
+          backdropFilter: 'blur(20px)',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.15)'
+        }}>
+          <CardHeader>
+            <CardTitle style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '12px', 
+              fontSize: '24px',
+              fontWeight: '700',
+              color: '#2d3748'
+            }}>
+              <div style={{ 
+                width: '48px', 
+                height: '48px',
+                background: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <BarChart3 style={{ width: '24px', height: '24px', color: 'white' }} />
+              </div>
+              Projeção Financeira ({parameters.projectionYears} anos)
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: '0 12px' }}>
+                <thead>
+                  <tr>
+                    <th style={{ 
+                      padding: '16px', 
+                      textAlign: 'left', 
+                      fontSize: '14px', 
+                      fontWeight: '700', 
+                      color: '#4a5568',
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px'
+                    }}>Ano</th>
+                    <th style={{ 
+                      padding: '16px', 
+                      textAlign: 'right', 
+                      fontSize: '14px', 
+                      fontWeight: '700', 
+                      color: '#4a5568',
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px'
+                    }}>Receita</th>
+                    <th style={{ 
+                      padding: '16px', 
+                      textAlign: 'right', 
+                      fontSize: '14px', 
+                      fontWeight: '700', 
+                      color: '#4a5568',
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px'
+                    }}>Comissão</th>
+                    <th style={{ 
+                      padding: '16px', 
+                      textAlign: 'right', 
+                      fontSize: '14px', 
+                      fontWeight: '700', 
+                      color: '#4a5568',
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px'
+                    }}>Lucro</th>
+                    <th style={{ 
+                      padding: '16px', 
+                      textAlign: 'right', 
+                      fontSize: '14px', 
+                      fontWeight: '700', 
+                      color: '#4a5568',
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px'
+                    }}>Margem</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {financial.projections.map((projection, index) => (
+                    <tr key={projection.year} style={{ 
+                      background: 'linear-gradient(135deg, rgba(248,249,250,0.8) 0%, rgba(237,242,247,0.8) 100%)',
+                      borderRadius: '12px'
+                    }}>
+                      <td style={{ 
+                        padding: '20px 16px', 
+                        fontSize: '16px', 
+                        fontWeight: '700',
+                        color: '#2d3748',
+                        borderTopLeftRadius: '12px',
+                        borderBottomLeftRadius: '12px'
+                      }}>
+                        Ano {projection.year}
+                      </td>
+                      <td style={{ padding: '20px 16px', textAlign: 'right', fontSize: '16px', fontWeight: '600' }}>
+                        {formatCurrency(projection.revenue)}
+                      </td>
+                      <td style={{ 
+                        padding: '20px 16px', 
+                        textAlign: 'right', 
+                        fontSize: '16px', 
+                        fontWeight: '600', 
+                        color: '#38a169' 
+                      }}>
+                        {formatCurrency(projection.commission)}
+                      </td>
+                      <td style={{ 
+                        padding: '20px 16px', 
+                        textAlign: 'right', 
+                        fontSize: '16px', 
+                        fontWeight: '700',
+                        color: projection.profit > 0 ? '#38a169' : '#e53e3e' 
+                      }}>
+                        {formatCurrency(projection.profit)}
+                      </td>
+                      <td style={{ 
+                        padding: '20px 16px', 
+                        textAlign: 'right', 
+                        fontSize: '16px', 
+                        fontWeight: '700',
+                        color: projection.margin > 20 ? '#38a169' : projection.margin > 10 ? '#dd6b20' : '#e53e3e',
+                        borderTopRightRadius: '12px',
+                        borderBottomRightRadius: '12px'
+                      }}>
+                        {formatPercent(projection.margin)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Summary Cards */}
+            <div style={{ 
+              marginTop: '32px',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '16px'
+            }}>
+              <div style={{
+                padding: '20px',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                borderRadius: '16px',
+                color: 'white',
+                textAlign: 'center'
+              }}>
+                <p style={{ fontSize: '12px', opacity: 0.8, margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  Lucro Total
+                </p>
+                <p style={{ fontSize: '24px', fontWeight: '800', margin: 0 }}>
+                  {formatCurrency(financial.projections.reduce((sum, p) => sum + p.profit, 0))}
+                </p>
+              </div>
+              <div style={{
+                padding: '20px',
+                background: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+                borderRadius: '16px',
+                color: 'white',
+                textAlign: 'center'
+              }}>
+                <p style={{ fontSize: '12px', opacity: 0.8, margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  ROI Total
+                </p>
+                <p style={{ fontSize: '24px', fontWeight: '800', margin: 0 }}>
+                  {formatPercent(financial.roi)}
+                </p>
+              </div>
+              <div style={{
+                padding: '20px',
+                background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                borderRadius: '16px',
+                color: 'white',
+                textAlign: 'center'
+              }}>
+                <p style={{ fontSize: '12px', opacity: 0.8, margin: '0 0 8px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                  Payback
+                </p>
+                <p style={{ fontSize: '24px', fontWeight: '800', margin: 0 }}>
+                  {financial.paybackPeriod.toFixed(1)} meses
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )
