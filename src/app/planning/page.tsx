@@ -53,12 +53,12 @@ export default function AdvancedFinancialPlanning() {
       support: 0.5
     },
     costs: {
-      salaries: 8000,
-      marketing: 3000,
-      infrastructure: 2000,
-      software: 800,
-      training: 500,
-      other: 1200
+      salaries: 5000,
+      marketing: 2000,
+      infrastructure: 1500,
+      software: 600,
+      training: 300,
+      other: 800
     }
   })
 
