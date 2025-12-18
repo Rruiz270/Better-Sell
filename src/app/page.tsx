@@ -106,6 +106,22 @@ export default function Home() {
               }}>
                 Dashboard
               </Link>
+              <Link href="/planning" style={{ 
+                color: '#64748B', 
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+                fontWeight: '500'
+              }}>
+                Financeiro
+              </Link>
+              <Link href="/business-plan" style={{ 
+                color: '#64748B', 
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+                fontWeight: '500'
+              }}>
+                Plano de Negócios
+              </Link>
               <Button variant="outline" size="sm">Login</Button>
               <Button size="sm">Quero ser Franqueado</Button>
             </nav>
