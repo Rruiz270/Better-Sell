@@ -212,7 +212,7 @@ export default function AdvancedFinancialPlanning() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
             <div>
               <h1 style={{ fontSize: '42px', fontWeight: '700', margin: '0 0 8px 0' }}>
-                Modelo Financeiro Avançado
+                Modelo Financeiro Avançado Better Sell
               </h1>
               <p style={{ fontSize: '18px', opacity: 0.9, margin: 0 }}>
                 Análise completa de viabilidade e projeções para sua franquia Better Sell
