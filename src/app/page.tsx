@@ -57,7 +57,7 @@ export default function Home() {
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">B</span>
               </div>
-              <span className="text-2xl font-bold text-gradient">Better Sell</span>
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Better Sell</span>
             </div>
             <nav className="hidden md:flex items-center space-x-8">
               <Link href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">
@@ -83,9 +83,9 @@ export default function Home() {
       {/* Hero Section */}
       <section className="pt-16 pb-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
-          <div className="animate-fade-in">
+          <div>
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              <span className="text-gradient">Multi-Brand</span> Franchising
+              <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Multi-Brand</span> Franchising
               <br />
               <span className="text-gray-800">Made Simple</span>
             </h1>
@@ -115,7 +115,7 @@ export default function Home() {
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat, index) => (
-              <Card key={stat.label} className={`text-center card-hover animation-delay-${index * 200}`}>
+              <Card key={stat.label} className="text-center hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="p-6">
                   <div className="flex justify-center mb-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
@@ -136,7 +136,7 @@ export default function Home() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
-              <span className="text-gradient">Our Brand Portfolio</span>
+              <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Our Brand Portfolio</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Access multiple premium educational brands through one unified platform
@@ -146,7 +146,7 @@ export default function Home() {
             {brands.map((brand, index) => (
               <Card 
                 key={brand.name} 
-                className={`interactive-card animation-delay-${index * 100} overflow-hidden`}
+                className="hover:scale-105 transition-transform duration-200 overflow-hidden hover:shadow-xl"
               >
                 <div className={`h-2 bg-gradient-to-r ${brand.color}`} />
                 <CardHeader className="pb-2">
@@ -175,7 +175,7 @@ export default function Home() {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
-              <span className="text-gradient">Platform Features</span>
+              <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">Platform Features</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Everything you need to succeed as a Better Tech franchisee
@@ -183,7 +183,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {features.map((feature, index) => (
-              <Card key={feature.title} className={`card-hover animation-delay-${index * 200}`}>
+              <Card key={feature.title} className="hover:shadow-lg transition-shadow duration-300">
                 <CardHeader>
                   <div className="flex items-center space-x-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">

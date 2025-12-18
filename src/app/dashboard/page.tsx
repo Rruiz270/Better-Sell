@@ -158,7 +158,7 @@ export default function Dashboard() {
         {/* KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
-            <Card key={stat.title} className="card-hover">
+            <Card key={stat.title} className="hover:shadow-lg transition-shadow duration-300">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -212,7 +212,7 @@ export default function Dashboard() {
               <CardContent>
                 <div className="space-y-4">
                   {recentLeads.map((lead) => (
-                    <div key={lead.id} className="border border-slate-200 rounded-lg p-4 card-hover">
+                    <div key={lead.id} className="border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center space-x-3 mb-2">
