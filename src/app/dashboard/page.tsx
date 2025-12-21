@@ -136,39 +136,41 @@ export default function Dashboard() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #F8FAFC 0%, rgba(59, 130, 246, 0.02) 100%)' }}>
       {/* Header */}
       <header style={{ 
-        backgroundColor: 'white', 
-        borderBottom: '1px solid #E2E8F0', 
-        padding: '16px 24px',
+        background: 'rgba(255, 255, 255, 0.95)', 
+        backdropFilter: 'blur(20px)', 
+        borderBottom: '1px solid rgba(59, 130, 246, 0.1)', 
+        padding: '20px 24px',
         position: 'sticky',
         top: 0,
-        zIndex: 10
+        zIndex: 50,
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
       }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
               <Link href="/" style={{ 
                 display: 'flex', 
                 alignItems: 'center', 
                 gap: '12px', 
-                textDecoration: 'none',
-                marginBottom: '8px'
+                textDecoration: 'none'
               }}>
                 <div style={{ 
-                  width: '32px', 
-                  height: '32px', 
+                  width: '40px', 
+                  height: '40px', 
                   background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
-                  borderRadius: '6px', 
+                  borderRadius: '10px', 
                   display: 'flex', 
                   alignItems: 'center', 
-                  justifyContent: 'center' 
+                  justifyContent: 'center',
+                  boxShadow: '0 8px 20px rgba(59, 130, 246, 0.3)' 
                 }}>
-                  <span style={{ color: 'white', fontWeight: 'bold', fontSize: '14px' }}>B</span>
+                  <span style={{ color: 'white', fontWeight: 'bold', fontSize: '16px' }}>B</span>
                 </div>
                 <span style={{ 
-                  fontSize: '18px', 
+                  fontSize: '20px', 
                   fontWeight: 'bold',
                   background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
                   WebkitBackgroundClip: 'text', 
@@ -178,81 +180,167 @@ export default function Dashboard() {
                   Better Sell
                 </span>
               </Link>
-              <h1 style={{ fontSize: '24px', fontWeight: 'bold', color: '#1E293B', margin: 0 }}>Dashboard</h1>
-              <p style={{ color: '#64748B', margin: 0 }}>Bem-vindo, João Silva</p>
+              <div style={{ height: '40px', width: '1px', background: 'rgba(226, 232, 240, 0.8)' }} />
+              <div>
+                <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: '#1E293B', margin: '0 0 4px 0' }}>Dashboard</h1>
+                <p style={{ color: '#64748B', margin: 0, fontSize: '16px' }}>Bem-vindo, João Silva 👋</p>
+              </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <Button variant="outline" size="sm">
-                <Download style={{ width: '16px', height: '16px', marginRight: '8px' }} />
+              <button style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 16px',
+                background: 'rgba(255, 255, 255, 0.8)',
+                border: '1px solid rgba(59, 130, 246, 0.2)',
+                borderRadius: '10px',
+                color: '#3B82F6',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}>
+                <Download style={{ width: '16px', height: '16px' }} />
                 Exportar
-              </Button>
-              <Button variant="outline" size="sm">
-                <Calendar style={{ width: '16px', height: '16px', marginRight: '8px' }} />
+              </button>
+              <button style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 16px',
+                background: 'rgba(255, 255, 255, 0.8)',
+                border: '1px solid rgba(59, 130, 246, 0.2)',
+                borderRadius: '10px',
+                color: '#3B82F6',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}>
+                <Calendar style={{ width: '16px', height: '16px' }} />
                 {timeRange}
-              </Button>
-              <Button size="sm">
-                <Bell style={{ width: '16px', height: '16px', marginRight: '8px' }} />
+              </button>
+              <button style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 20px',
+                background: 'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)',
+                border: 'none',
+                borderRadius: '10px',
+                color: 'white',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)'
+              }}>
+                <Bell style={{ width: '16px', height: '16px' }} />
                 Notificações
-              </Button>
+              </button>
             </div>
           </div>
         </div>
       </header>
 
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '32px 24px' }}>
         {/* KPI Cards */}
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
           gap: '24px',
-          marginBottom: '32px'
+          marginBottom: '40px'
         }}>
-          {stats.map((stat) => (
-            <Card key={stat.title} style={{ 
-              padding: '24px',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              cursor: 'pointer'
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: '14px', fontWeight: '500', color: '#64748B', margin: '0 0 8px 0' }}>
-                    {stat.title}
-                  </p>
-                  <p style={{ fontSize: '28px', fontWeight: 'bold', color: '#1E293B', margin: '0 0 8px 0' }}>
-                    {stat.value}
-                  </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    {stat.changeType === 'positive' ? (
-                      <ArrowUpRight style={{ width: '16px', height: '16px', color: '#10B981' }} />
-                    ) : (
-                      <ArrowDownRight style={{ width: '16px', height: '16px', color: '#EF4444' }} />
-                    )}
-                    <span style={{ 
-                      fontSize: '14px', 
-                      fontWeight: '500',
-                      color: stat.changeType === 'positive' ? '#10B981' : '#EF4444'
-                    }}>
-                      {stat.change}
-                    </span>
-                    <span style={{ fontSize: '14px', color: '#64748B', marginLeft: '4px' }}>
-                      {stat.description}
-                    </span>
+          {stats.map((stat, index) => {
+            const gradients = [
+              'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)',
+              'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+              'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)',
+              'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)'
+            ]
+            return (
+              <div key={stat.title} style={{ 
+                background: 'rgba(255, 255, 255, 0.9)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '20px',
+                padding: '32px',
+                transition: 'all 0.3s ease',
+                cursor: 'pointer',
+                position: 'relative',
+                overflow: 'hidden',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-8px)'
+                e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.12)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.08)'
+              }}>
+                {/* Background gradient accent */}
+                <div style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '4px',
+                  background: gradients[index]
+                }} />
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontSize: '16px', fontWeight: '600', color: '#64748B', margin: '0 0 12px 0' }}>
+                      {stat.title}
+                    </p>
+                    <p style={{ fontSize: '36px', fontWeight: 'bold', color: '#1E293B', margin: '0 0 16px 0', lineHeight: '1' }}>
+                      {stat.value}
+                    </p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '6px 10px',
+                        borderRadius: '10px',
+                        background: stat.changeType === 'positive' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)'
+                      }}>
+                        {stat.changeType === 'positive' ? (
+                          <ArrowUpRight style={{ width: '16px', height: '16px', color: '#10B981' }} />
+                        ) : (
+                          <ArrowDownRight style={{ width: '16px', height: '16px', color: '#EF4444' }} />
+                        )}
+                        <span style={{ 
+                          fontSize: '14px', 
+                          fontWeight: '600',
+                          color: stat.changeType === 'positive' ? '#10B981' : '#EF4444'
+                        }}>
+                          {stat.change}
+                        </span>
+                      </div>
+                      <span style={{ fontSize: '14px', color: '#64748B', fontWeight: '500' }}>
+                        {stat.description}
+                      </span>
+                    </div>
+                  </div>
+                  <div style={{ 
+                    width: '64px', 
+                    height: '64px', 
+                    background: gradients[index],
+                    borderRadius: '16px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    boxShadow: `0 8px 25px ${gradients[index].includes('#3B82F6') ? 'rgba(59, 130, 246, 0.3)' : gradients[index].includes('#10B981') ? 'rgba(16, 185, 129, 0.3)' : gradients[index].includes('#8B5CF6') ? 'rgba(139, 92, 246, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`
+                  }}>
+                    <stat.icon style={{ width: '28px', height: '28px', color: 'white' }} />
                   </div>
                 </div>
-                <div style={{ 
-                  width: '48px', 
-                  height: '48px', 
-                  background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
-                  borderRadius: '8px', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center' 
-                }}>
-                  <stat.icon style={{ width: '24px', height: '24px', color: 'white' }} />
-                </div>
               </div>
-            </Card>
-          ))}
+            )
+          })}
         </div>
 
         {/* Main Content Grid */}

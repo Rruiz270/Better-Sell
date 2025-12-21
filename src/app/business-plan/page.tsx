@@ -125,15 +125,17 @@ export default function BusinessPlan() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #F8FAFC 0%, rgba(59, 130, 246, 0.02) 100%)' }}>
       {/* Header */}
       <header style={{ 
-        backgroundColor: 'white', 
-        borderBottom: '1px solid #E2E8F0', 
-        padding: '16px 24px',
+        background: 'rgba(255, 255, 255, 0.95)', 
+        backdropFilter: 'blur(20px)', 
+        borderBottom: '1px solid rgba(59, 130, 246, 0.1)', 
+        padding: '20px 24px',
         position: 'sticky',
         top: 0,
-        zIndex: 10
+        zIndex: 50,
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
       }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -269,69 +271,109 @@ export default function BusinessPlan() {
         {/* Market Potential Overview */}
         <div style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
           gap: '24px',
-          marginBottom: '24px'
+          marginBottom: '32px'
         }}>
-          <Card style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)', color: 'white' }}>
-            <CardContent style={{ padding: '24px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <p style={{ fontSize: '14px', opacity: 0.9, margin: '0 0 8px 0' }}>Potencial de Mercado</p>
-                  <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
-                    {marketPotential.totalTargets.toLocaleString('pt-BR')}
+          {[
+            { 
+              title: 'Potencial de Mercado', 
+              value: marketPotential.totalTargets.toLocaleString('pt-BR'), 
+              subtitle: 'prospects totais',
+              gradient: 'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)',
+              icon: Target
+            },
+            { 
+              title: 'Receita Anual Estimada', 
+              value: formatCurrency(marketPotential.annualRevenue), 
+              subtitle: 'potencial total',
+              gradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+              icon: TrendingUp
+            },
+            { 
+              title: 'Comissão Anual', 
+              value: formatCurrency(marketPotential.commission), 
+              subtitle: '20% da receita',
+              gradient: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+              icon: PieChart
+            },
+            { 
+              title: 'Conversão Estimada', 
+              value: marketPotential.estimatedConversion.toFixed(0), 
+              subtitle: 'clientes/ano (8%)',
+              gradient: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)',
+              icon: Users
+            }
+          ].map((item, index) => (
+            <div key={item.title} style={{
+              background: 'rgba(255, 255, 255, 0.9)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '20px',
+              padding: '32px',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+              transition: 'all 0.3s ease',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-8px)'
+              e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.12)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.08)'
+            }}>
+              {/* Gradient header */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '4px',
+                background: item.gradient
+              }} />
+              
+              {/* Background glow effect */}
+              <div style={{
+                position: 'absolute',
+                top: '-50%',
+                right: '-50%',
+                width: '100px',
+                height: '100px',
+                background: item.gradient.replace('135deg', 'circle'),
+                opacity: 0.05,
+                borderRadius: '50%'
+              }} />
+              
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative' }}>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontSize: '16px', fontWeight: '600', color: '#64748B', margin: '0 0 12px 0' }}>
+                    {item.title}
                   </p>
-                  <p style={{ fontSize: '12px', opacity: 0.8, margin: 0 }}>prospects totais</p>
-                </div>
-                <Target style={{ width: '32px', height: '32px', opacity: 0.8 }} />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card style={{ background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)', color: 'white' }}>
-            <CardContent style={{ padding: '24px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <p style={{ fontSize: '14px', opacity: 0.9, margin: '0 0 8px 0' }}>Receita Anual Estimada</p>
-                  <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
-                    {formatCurrency(marketPotential.annualRevenue)}
+                  <p style={{ fontSize: '32px', fontWeight: 'bold', margin: '0 0 8px 0', color: '#1E293B', lineHeight: '1' }}>
+                    {item.value}
                   </p>
-                  <p style={{ fontSize: '12px', opacity: 0.8, margin: 0 }}>potencial total</p>
-                </div>
-                <TrendingUp style={{ width: '32px', height: '32px', opacity: 0.8 }} />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card style={{ background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', color: 'white' }}>
-            <CardContent style={{ padding: '24px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <p style={{ fontSize: '14px', opacity: 0.9, margin: '0 0 8px 0' }}>Comissão Anual</p>
-                  <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
-                    {formatCurrency(marketPotential.commission)}
+                  <p style={{ fontSize: '14px', color: '#64748B', margin: 0, fontWeight: '500' }}>
+                    {item.subtitle}
                   </p>
-                  <p style={{ fontSize: '12px', opacity: 0.8, margin: 0 }}>20% da receita</p>
                 </div>
-                <PieChart style={{ width: '32px', height: '32px', opacity: 0.8 }} />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card style={{ background: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)', color: 'white' }}>
-            <CardContent style={{ padding: '24px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <p style={{ fontSize: '14px', opacity: 0.9, margin: '0 0 8px 0' }}>Conversão Estimada</p>
-                  <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
-                    {marketPotential.estimatedConversion.toFixed(0)}
-                  </p>
-                  <p style={{ fontSize: '12px', opacity: 0.8, margin: 0 }}>clientes/ano (8%)</p>
+                <div style={{
+                  width: '64px',
+                  height: '64px',
+                  background: item.gradient,
+                  borderRadius: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: `0 8px 25px ${item.gradient.includes('#3B82F6') ? 'rgba(59, 130, 246, 0.3)' : item.gradient.includes('#10B981') ? 'rgba(16, 185, 129, 0.3)' : item.gradient.includes('#F59E0B') ? 'rgba(245, 158, 11, 0.3)' : 'rgba(139, 92, 246, 0.3)'}`
+                }}>
+                  <item.icon style={{ width: '28px', height: '28px', color: 'white' }} />
                 </div>
-                <Users style={{ width: '32px', height: '32px', opacity: 0.8 }} />
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          ))}
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
