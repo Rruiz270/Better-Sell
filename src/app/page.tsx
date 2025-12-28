@@ -3,518 +3,423 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, Calculator, TrendingUp, MapPin, Building2, Users, Target, BarChart3, DollarSign, Zap, PlayCircle } from "lucide-react"
+import { ArrowRight, Calculator, TrendingUp, MapPin, Building2, Users, Target, BarChart3, DollarSign, Lightbulb, Shield, Briefcase, Network, Award, ChevronRight, Star } from "lucide-react"
 import Link from "next/link"
 
 export default function Home() {
-  const [selectedTerritory, setSelectedTerritory] = useState('')
-  const [currentStep, setCurrentStep] = useState(0)
+  const [activeFeature, setActiveFeature] = useState(0)
 
   const territories = [
     { 
-      name: 'Alto Poder Aquisitivo', 
-      regions: 'SP, RJ, DF', 
+      name: 'Metro Premium', 
+      regions: 'São Paulo, Rio de Janeiro, Brasília', 
       investment: 'R$ 60.000', 
-      marketSize: '2.5M professionals',
-      avgTicket: 'R$ 2.800',
-      competition: 'Alta',
-      id: 'high'
+      marketDensity: 'Alta',
+      opportunity: 'Corporações e empresas de grande porte',
+      id: 'premium'
     },
     { 
-      name: 'Médio Poder Aquisitivo', 
-      regions: 'PR, SC, MG, BA', 
+      name: 'Regional Growth', 
+      regions: 'Capitais Sul/Sudeste/Nordeste', 
       investment: 'R$ 50.000', 
-      marketSize: '1.8M professionals',
-      avgTicket: 'R$ 2.200',
-      competition: 'Média',
-      id: 'medium'
+      marketDensity: 'Média',
+      opportunity: 'PMEs em crescimento e filiais',
+      id: 'growth'
     },
     { 
-      name: 'Baixo Poder Aquisitivo', 
-      regions: 'Norte e Interior Nordeste', 
+      name: 'Emerging Markets', 
+      regions: 'Interior e cidades médias', 
       investment: 'R$ 40.000', 
-      marketSize: '1.2M professionals',
-      avgTicket: 'R$ 1.800',
-      competition: 'Baixa',
-      id: 'low'
+      marketDensity: 'Emergente',
+      opportunity: 'Mercado em desenvolvimento',
+      id: 'emerging'
     }
   ]
 
   const businessModels = [
     {
-      type: 'B2B',
-      priority: 'Alta',
+      type: 'B2B Corporate',
+      priority: 'Primária',
       description: 'Vendas diretas para empresas',
-      revenue: '60% do faturamento',
-      avgDeal: 'R$ 25.000',
-      cycle: '45-90 dias'
-    },
-    {
-      type: 'B2B2C',
-      priority: 'Alta', 
-      description: 'Parcerias com empresas para funcionários',
-      revenue: '25% do faturamento',
-      avgDeal: 'R$ 15.000',
-      cycle: '30-60 dias'
-    },
-    {
-      type: 'B2S',
-      priority: 'Média',
-      description: 'Vendas para escolas e instituições',
-      revenue: '10% do faturamento', 
-      avgDeal: 'R$ 35.000',
+      focus: 'Corporações e médias empresas',
+      potential: '60% do pipeline',
       cycle: '60-120 dias'
     },
     {
-      type: 'B2S2C',
-      priority: 'Média',
-      description: 'Parcerias com escolas para alunos',
-      revenue: '4% do faturamento',
-      avgDeal: 'R$ 8.000', 
-      cycle: '30-45 dias'
+      type: 'B2B2C Partnership',
+      priority: 'Primária', 
+      description: 'Parcerias estratégicas',
+      focus: 'RH e desenvolvimento corporativo',
+      potential: '25% do pipeline',
+      cycle: '45-90 dias'
     },
     {
-      type: 'B2C',
-      priority: 'Baixa',
-      description: 'Vendas diretas para consumidores',
-      revenue: '1% do faturamento',
-      avgDeal: 'R$ 2.500',
-      cycle: '7-15 dias'
+      type: 'B2S Education',
+      priority: 'Secundária',
+      description: 'Instituições educacionais',
+      focus: 'Escolas e universidades',
+      potential: '10% do pipeline',
+      cycle: '90-180 dias'
+    },
+    {
+      type: 'B2S2C Integration',
+      priority: 'Secundária',
+      description: 'Programas educacionais',
+      focus: 'Parcerias com instituições',
+      potential: '4% do pipeline',
+      cycle: '60-120 dias'
+    },
+    {
+      type: 'B2C Individual',
+      priority: 'Tertiary',
+      description: 'Clientes individuais',
+      focus: 'Profissionais executivos',
+      potential: '1% do pipeline',
+      cycle: '15-30 dias'
     }
   ]
 
   const planningSteps = [
     { 
       step: '01',
-      title: 'Análise Territorial', 
-      description: 'Selecione sua região e analise potencial de mercado',
+      title: 'Market Analysis', 
+      description: 'Analyze your target territory and market opportunities',
       icon: MapPin,
-      color: '#3B82F6'
+      color: 'from-blue-600 to-blue-700'
     },
     { 
       step: '02', 
-      title: 'Modelo de Negócio',
-      description: 'Configure mix B2B/B2B2C/B2S com foco estratégico',
+      title: 'Business Strategy',
+      description: 'Configure your revenue mix and business approach',
       icon: Building2,
-      color: '#10B981'
+      color: 'from-emerald-600 to-emerald-700'
     },
     { 
       step: '03',
-      title: 'Projeção Financeira',
-      description: 'Modele 3 cenários com ROI de 10 anos',
+      title: 'Financial Modeling',
+      description: 'Model scenarios and project your investment returns',
       icon: Calculator,
-      color: '#8B5CF6'
+      color: 'from-purple-600 to-purple-700'
     },
     { 
       step: '04',
-      title: 'Apresentação Final',
-      description: 'Gere sua proposta personalizada de investimento', 
+      title: 'Investment Proposal',
+      description: 'Generate your personalized franchise proposal', 
       icon: BarChart3,
-      color: '#F59E0B'
+      color: 'from-amber-600 to-amber-700'
+    }
+  ]
+
+  const capabilities = [
+    { 
+      title: 'Market Intelligence', 
+      description: 'Advanced territory analysis and competitor mapping', 
+      icon: Target,
+      color: 'bg-blue-50 border-blue-200 text-blue-800'
+    },
+    { 
+      title: 'Brand Portfolio', 
+      description: 'Access to 5 premium educational brands', 
+      icon: Award,
+      color: 'bg-emerald-50 border-emerald-200 text-emerald-800'
+    },
+    { 
+      title: 'Revenue Optimization', 
+      description: 'AI-driven sales funnel and performance analytics', 
+      icon: TrendingUp,
+      color: 'bg-purple-50 border-purple-200 text-purple-800'
+    },
+    { 
+      title: 'Partnership Network', 
+      description: 'Strategic alliances and referral systems', 
+      icon: Network,
+      color: 'bg-amber-50 border-amber-200 text-amber-800'
     }
   ]
 
   const keyMetrics = [
-    { title: 'Investment Range', value: 'R$ 40k - R$ 60k', description: 'Based on territory', icon: DollarSign },
-    { title: 'Revenue Split', value: '25% Franchise', description: '75% Franqueadora', icon: TrendingUp },
-    { title: 'Lead Packages', value: '10-40 leads/day', description: 'Scalable plans', icon: Target },
-    { title: 'Target Launch', value: '5 Franchisees', description: 'Q1 2026', icon: Users },
+    { 
+      title: 'Investment Range', 
+      value: 'R$ 40k - 60k', 
+      description: 'Territory-based investment levels', 
+      icon: DollarSign,
+      gradient: 'from-blue-500 to-blue-600'
+    },
+    { 
+      title: 'Revenue Share', 
+      value: '25% Franchise', 
+      description: 'Performance-based commission structure', 
+      icon: TrendingUp,
+      gradient: 'from-emerald-500 to-emerald-600'
+    },
+    { 
+      title: 'Business Focus', 
+      value: '85% B2B/B2B2C', 
+      description: 'High-value corporate clients', 
+      icon: Briefcase,
+      gradient: 'from-purple-500 to-purple-600'
+    },
+    { 
+      title: 'Launch Target', 
+      value: '5 Franchisees', 
+      description: 'Q1 2026 strategic expansion', 
+      icon: Users,
+      gradient: 'from-amber-500 to-amber-600'
+    },
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #F8FAFC 0%, rgba(59, 130, 246, 0.02) 100%)' }}>
-      {/* Header */}
-      <header style={{ 
-        background: 'rgba(255, 255, 255, 0.95)', 
-        backdropFilter: 'blur(20px)', 
-        borderBottom: '1px solid rgba(59, 130, 246, 0.1)', 
-        position: 'sticky', 
-        top: 0, 
-        zIndex: 50,
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ 
-                width: '40px', 
-                height: '40px', 
-                background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
-                borderRadius: '8px', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center' 
-              }}>
-                <span style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}>B</span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-emerald-600 rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-lg">B</span>
               </div>
               <div>
-                <h1 style={{ 
-                  fontSize: '20px', 
-                  fontWeight: 'bold', 
-                  background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
-                  WebkitBackgroundClip: 'text', 
-                  backgroundClip: 'text', 
-                  color: 'transparent',
-                  margin: 0
-                }}>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
                   Better Sell
                 </h1>
-                <p style={{ fontSize: '12px', color: '#64748B', margin: 0 }}>Franchise Planning Tool</p>
+                <p className="text-xs text-slate-500 -mt-1">Franchise Intelligence</p>
               </div>
             </div>
-            <nav style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-              <Link href="/planning" style={{ 
-                color: '#64748B', 
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-                fontWeight: '500'
-              }}>
+            <div className="hidden md:flex items-center space-x-8">
+              <Link href="/planning" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">
                 Planning
               </Link>
-              <Link href="/scenarios" style={{ 
-                color: '#64748B', 
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-                fontWeight: '500'
-              }}>
+              <Link href="/scenarios" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">
                 Scenarios
               </Link>
-              <Link href="/presentation" style={{ 
-                color: '#64748B', 
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-                fontWeight: '500'
-              }}>
+              <Link href="/presentation" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">
                 Presentation
               </Link>
-            </nav>
+              <Button size="sm" className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700">
+                Start Planning
+              </Button>
+            </div>
           </div>
         </div>
-      </header>
+      </nav>
 
       {/* Hero Section */}
-      <section style={{ 
-        padding: '80px 24px 60px 24px', 
-        textAlign: 'center',
-        background: 'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.05) 0%, rgba(16, 185, 129, 0.05) 45%, rgba(248, 250, 252, 1) 100%)',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', position: 'relative' }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '8px 16px',
-            background: 'rgba(139, 92, 246, 0.1)',
-            border: '1px solid rgba(139, 92, 246, 0.2)',
-            borderRadius: '50px',
-            marginBottom: '32px',
-            fontSize: '14px',
-            fontWeight: '500',
-            color: '#8B5CF6'
-          }}>
-            <Calculator style={{ width: '16px', height: '16px' }} />
-            Franchise Investment Planner
-          </div>
-          
-          <h1 style={{ 
-            fontSize: '3.5rem', 
-            fontWeight: 'bold', 
-            marginBottom: '24px', 
-            lineHeight: '1.1',
-            letterSpacing: '-0.02em',
-            color: '#1E293B'
-          }}>
-            Plan Your
-            <span style={{ 
-              background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
-              WebkitBackgroundClip: 'text', 
-              backgroundClip: 'text', 
-              color: 'transparent' 
-            }}> Better Sell </span>
-            Franchise
-          </h1>
-          
-          <p style={{ 
-            fontSize: '20px', 
-            color: '#64748B', 
-            marginBottom: '40px', 
-            maxWidth: '650px', 
-            margin: '0 auto 40px auto',
-            lineHeight: '1.6' 
-          }}>
-            Model your franchise investment with <strong>3 financial scenarios</strong>, territory analysis, and 
-            <strong> B2B-focused revenue planning</strong> for Q1 2026 launch.
-          </p>
-          
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '40px' }}>
-            <button 
-              onClick={() => setCurrentStep(1)}
-              style={{
-                padding: '16px 32px',
-                fontSize: '18px',
-                fontWeight: '600',
-                background: 'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '12px',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 8px 25px rgba(59, 130, 246, 0.3)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-              <PlayCircle style={{ width: '20px', height: '20px' }} />
-              Start Planning
-              <ArrowRight style={{ width: '20px', height: '20px' }} />
-            </button>
-            <button style={{
-              padding: '16px 32px',
-              fontSize: '18px',
-              fontWeight: '600',
-              background: 'rgba(255, 255, 255, 0.9)',
-              color: '#3B82F6',
-              border: '2px solid rgba(59, 130, 246, 0.2)',
-              borderRadius: '12px',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              backdropFilter: 'blur(10px)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              View Demo Results
-              <BarChart3 style={{ width: '20px', height: '20px' }} />
-            </button>
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50">
+        <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-20 pb-24">
+          <div className="text-center">
+            <div className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-blue-700 text-sm font-medium mb-8">
+              <Lightbulb className="w-4 h-4 mr-2" />
+              Franchise Investment Intelligence Platform
+            </div>
+            
+            <h1 className="text-5xl lg:text-6xl font-bold mb-8">
+              <span className="bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 bg-clip-text text-transparent">
+                Strategic Franchise
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
+                Planning Platform
+              </span>
+            </h1>
+            
+            <p className="text-xl lg:text-2xl text-slate-600 max-w-3xl mx-auto mb-12 leading-relaxed">
+              Model your <strong className="text-slate-800">Better Tech franchise investment</strong> with advanced 
+              territorial analysis, business strategy optimization, and scenario-based financial projections.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+              <Link href="/planning">
+                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white px-8 py-3 text-lg">
+                  Start Strategic Planning
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+              <Button variant="outline" size="lg" className="px-8 py-3 text-lg border-slate-300 hover:bg-slate-50">
+                View Demo Results
+                <BarChart3 className="w-5 h-5 ml-2" />
+              </Button>
+            </div>
+
+            {/* Key Metrics Preview */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+              {keyMetrics.map((metric, index) => (
+                <div key={metric.title} className="bg-white/60 backdrop-blur border border-slate-200 rounded-2xl p-6 hover:bg-white/80 transition-all duration-300">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${metric.gradient} flex items-center justify-center mb-4`}>
+                    <metric.icon className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="text-2xl font-bold text-slate-900 mb-1">{metric.value}</div>
+                  <div className="text-sm font-medium text-slate-600 mb-1">{metric.title}</div>
+                  <div className="text-xs text-slate-500">{metric.description}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Key Metrics */}
-      <section style={{ 
-        padding: '60px 24px', 
-        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(59, 130, 246, 0.02) 100%)'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-            gap: '24px' 
-          }}>
-            {keyMetrics.map((metric, index) => {
-              const gradients = [
-                'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)',
-                'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-                'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)',
-                'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)'
-              ]
-              return (
-                <Card key={metric.title} style={{ 
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '16px',
-                  padding: '24px',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
-                }}>
-                  <CardContent style={{ padding: 0 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div>
-                        <p style={{ fontSize: '14px', fontWeight: '600', color: '#64748B', margin: '0 0 8px 0' }}>
-                          {metric.title}
-                        </p>
-                        <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#1E293B', margin: '0 0 8px 0' }}>
-                          {metric.value}
-                        </p>
-                        <p style={{ fontSize: '12px', color: '#64748B', margin: 0 }}>
-                          {metric.description}
-                        </p>
-                      </div>
-                      <div style={{ 
-                        width: '48px', 
-                        height: '48px', 
-                        background: gradients[index],
-                        borderRadius: '12px', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'center',
-                        boxShadow: `0 6px 20px ${gradients[index].includes('#3B82F6') ? 'rgba(59, 130, 246, 0.3)' : gradients[index].includes('#10B981') ? 'rgba(16, 185, 129, 0.3)' : gradients[index].includes('#8B5CF6') ? 'rgba(139, 92, 246, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`
-                      }}>
-                        <metric.icon style={{ width: '24px', height: '24px', color: 'white' }} />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Planning Steps */}
-      <section style={{ 
-        padding: '80px 24px', 
-        backgroundColor: 'white'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <h2 style={{ 
-              fontSize: '2.5rem', 
-              fontWeight: 'bold', 
-              marginBottom: '16px',
-              color: '#1E293B'
-            }}>
-              Franchise Planning Process
+      {/* Planning Process */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-slate-900 mb-6">
+              Intelligent Planning Process
             </h2>
-            <p style={{ fontSize: '18px', color: '#64748B', maxWidth: '600px', margin: '0 auto' }}>
-              Interactive 4-step planning tool to model your investment and generate a personalized franchise proposal
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Our data-driven approach combines market intelligence, financial modeling, 
+              and strategic planning to optimize your franchise investment.
             </p>
           </div>
           
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-            gap: '32px' 
-          }}>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {planningSteps.map((step, index) => (
-              <Card 
-                key={step.step}
-                style={{ 
-                  background: currentStep === index + 1 ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%)' : 'white',
-                  border: currentStep === index + 1 ? '2px solid #3B82F6' : '1px solid #E2E8F0',
-                  borderRadius: '16px',
-                  padding: '32px',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer'
-                }}
-                onClick={() => setCurrentStep(index + 1)}
-              >
-                <CardContent style={{ padding: 0, textAlign: 'center' }}>
-                  <div style={{ 
-                    width: '80px', 
-                    height: '80px', 
-                    background: step.color,
-                    borderRadius: '20px', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    margin: '0 auto 24px auto',
-                    boxShadow: `0 8px 25px ${step.color}40`
-                  }}>
-                    <step.icon style={{ width: '36px', height: '36px', color: 'white' }} />
+              <div key={step.step} className="group relative">
+                <div className="bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <step.icon className="w-8 h-8 text-white" />
                   </div>
-                  <div style={{ 
-                    fontSize: '32px', 
-                    fontWeight: 'bold', 
-                    color: step.color, 
-                    marginBottom: '16px' 
-                  }}>
-                    {step.step}
-                  </div>
-                  <h3 style={{ 
-                    fontSize: '20px', 
-                    fontWeight: 'bold', 
-                    color: '#1E293B', 
-                    marginBottom: '12px' 
-                  }}>
-                    {step.title}
-                  </h3>
-                  <p style={{ fontSize: '15px', color: '#64748B', lineHeight: '1.5' }}>
-                    {step.description}
-                  </p>
-                </CardContent>
-              </Card>
+                  <div className="text-3xl font-bold text-slate-400 mb-4">{step.step}</div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">{step.title}</h3>
+                  <p className="text-slate-600 leading-relaxed">{step.description}</p>
+                </div>
+                
+                {/* Connector line */}
+                {index < planningSteps.length - 1 && (
+                  <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-0.5 bg-slate-200"></div>
+                )}
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Business Model Priority */}
-      <section style={{ 
-        padding: '80px 24px', 
-        background: 'linear-gradient(135deg, #F8FAFC 0%, rgba(59, 130, 246, 0.02) 100%)'
-      }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <h2 style={{ 
-              fontSize: '2.5rem', 
-              fontWeight: 'bold', 
-              marginBottom: '16px',
-              color: '#1E293B'
-            }}>
-              Revenue Model Priority
+      {/* Business Model Strategy */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-slate-900 mb-6">
+              Strategic Revenue Model
             </h2>
-            <p style={{ fontSize: '18px', color: '#64748B', maxWidth: '700px', margin: '0 auto' }}>
-              Strategic focus on B2B and B2B2C with reduced B2C emphasis for higher-value, longer-term contracts
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Focus on high-value B2B and corporate partnerships with minimal consumer dependency. 
+              Our model prioritizes sustainable, scalable business relationships.
             </p>
           </div>
           
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-            gap: '24px' 
-          }}>
-            {businessModels.map((model, index) => {
-              const priorityColors = {
-                'Alta': '#10B981',
-                'Média': '#F59E0B', 
-                'Baixa': '#64748B'
-              }
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            {businessModels.slice(0, 2).map((model, index) => (
+              <div key={model.type} className="bg-white border border-slate-200 rounded-2xl p-8 hover:shadow-lg transition-all duration-300">
+                <div className="flex items-start justify-between mb-6">
+                  <div>
+                    <h3 className="text-2xl font-bold text-slate-900 mb-2">{model.type}</h3>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-700">
+                      {model.priority} Focus
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-3xl font-bold text-emerald-600">{model.potential}</div>
+                    <div className="text-sm text-slate-500">Pipeline Target</div>
+                  </div>
+                </div>
+                <p className="text-slate-600 mb-4">{model.description}</p>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-slate-500">Focus Area:</span>
+                    <div className="font-medium text-slate-900">{model.focus}</div>
+                  </div>
+                  <div>
+                    <span className="text-slate-500">Sales Cycle:</span>
+                    <div className="font-medium text-slate-900">{model.cycle}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Secondary Models */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {businessModels.slice(2).map((model, index) => (
+              <div key={model.type} className="bg-white border border-slate-200 rounded-xl p-6">
+                <h4 className="font-bold text-slate-900 mb-2">{model.type}</h4>
+                <div className="text-2xl font-bold text-slate-600 mb-2">{model.potential}</div>
+                <p className="text-sm text-slate-600 mb-3">{model.description}</p>
+                <div className="text-xs text-slate-500">{model.cycle} • {model.focus}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Platform Capabilities */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-slate-900 mb-6">
+              Platform Capabilities
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Advanced tools and systems to support your franchise growth and operational excellence.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {capabilities.map((capability, index) => (
+              <div key={capability.title} className="group">
+                <div className={`border-2 rounded-2xl p-6 h-full transition-all duration-300 group-hover:shadow-lg ${capability.color}`}>
+                  <capability.icon className="w-8 h-8 mb-4" />
+                  <h3 className="font-bold text-lg mb-3">{capability.title}</h3>
+                  <p className="text-sm leading-relaxed">{capability.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Territory Analysis */}
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-slate-900 mb-6">
+              Territory Investment Levels
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Choose your market based on investment capacity and growth objectives. 
+              Each territory offers unique opportunities and market characteristics.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {territories.map((territory, index) => {
+              const gradients = ['from-blue-500 to-blue-600', 'from-emerald-500 to-emerald-600', 'from-purple-500 to-purple-600']
               return (
-                <Card 
-                  key={model.type}
-                  style={{ 
-                    background: 'rgba(255, 255, 255, 0.9)',
-                    border: `2px solid ${priorityColors[model.priority as keyof typeof priorityColors]}20`,
-                    borderRadius: '16px',
-                    padding: '24px',
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  <CardContent style={{ padding: 0 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                      <h3 style={{ 
-                        fontSize: '24px', 
-                        fontWeight: 'bold', 
-                        color: '#1E293B',
-                        margin: 0
-                      }}>
-                        {model.type}
-                      </h3>
-                      <div style={{
-                        padding: '4px 12px',
-                        borderRadius: '8px',
-                        fontSize: '12px',
-                        fontWeight: '600',
-                        backgroundColor: `${priorityColors[model.priority as keyof typeof priorityColors]}20`,
-                        color: priorityColors[model.priority as keyof typeof priorityColors]
-                      }}>
-                        {model.priority} Prioridade
+                <div key={territory.id} className="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                  <div className={`h-2 bg-gradient-to-r ${gradients[index]}`}></div>
+                  <div className="p-8">
+                    <div className="flex items-center justify-between mb-6">
+                      <h3 className="text-2xl font-bold text-slate-900">{territory.name}</h3>
+                      <div className="text-right">
+                        <div className="text-2xl font-bold text-emerald-600">{territory.investment}</div>
+                        <div className="text-sm text-slate-500">Investment</div>
                       </div>
                     </div>
-                    <p style={{ fontSize: '14px', color: '#64748B', marginBottom: '16px' }}>
-                      {model.description}
-                    </p>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '12px' }}>
+                    
+                    <div className="space-y-4">
                       <div>
-                        <span style={{ color: '#64748B' }}>Revenue Share:</span>
-                        <p style={{ fontWeight: '600', color: '#1E293B', margin: 0 }}>{model.revenue}</p>
+                        <span className="text-sm text-slate-500">Coverage Area:</span>
+                        <div className="font-medium text-slate-900">{territory.regions}</div>
                       </div>
                       <div>
-                        <span style={{ color: '#64748B' }}>Avg Deal:</span>
-                        <p style={{ fontWeight: '600', color: '#1E293B', margin: 0 }}>{model.avgDeal}</p>
+                        <span className="text-sm text-slate-500">Market Density:</span>
+                        <div className="font-medium text-slate-900">{territory.marketDensity}</div>
                       </div>
                       <div>
-                        <span style={{ color: '#64748B' }}>Sales Cycle:</span>
-                        <p style={{ fontWeight: '600', color: '#1E293B', margin: 0 }}>{model.cycle}</p>
+                        <span className="text-sm text-slate-500">Key Opportunity:</span>
+                        <div className="font-medium text-slate-900">{territory.opportunity}</div>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               )
             })}
           </div>
@@ -522,109 +427,97 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section style={{ 
-        padding: '80px 24px', 
-        background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
-        color: 'white',
-        textAlign: 'center'
-      }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '24px' }}>
-            Ready to Plan Your Franchise Investment?
+      <section className="py-24 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+            Ready to Model Your Investment?
           </h2>
-          <p style={{ fontSize: '18px', marginBottom: '32px', opacity: 0.9 }}>
-            Use our interactive planning tool to model scenarios and generate your personalized investment proposal for Q1 2026 launch.
+          <p className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto">
+            Use our intelligent planning platform to create detailed financial projections 
+            and develop your franchise strategy for Q1 2026 launch.
           </p>
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Button 
-              size="lg" 
-              style={{ 
-                backgroundColor: 'white', 
-                color: '#3B82F6', 
-                padding: '16px 32px',
-                fontSize: '16px'
-              }}
-              onClick={() => setCurrentStep(1)}
-            >
-              Start Planning Tool
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              style={{ 
-                borderColor: 'white', 
-                color: 'white', 
-                padding: '16px 32px',
-                fontSize: '16px'
-              }}
-            >
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/planning">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 px-8 py-3 text-lg">
+                Start Strategic Planning
+                <ChevronRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+            <Button variant="outline" size="lg" className="border-slate-400 text-white hover:bg-slate-800 px-8 py-3 text-lg">
               Download Framework
             </Button>
+          </div>
+          
+          <div className="mt-16 flex items-center justify-center space-x-8 text-slate-400">
+            <div className="flex items-center space-x-2">
+              <Shield className="w-5 h-5" />
+              <span>Secure Planning</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <BarChart3 className="w-5 h-5" />
+              <span>Real-time Modeling</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Award className="w-5 h-5" />
+              <span>Professional Results</span>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer style={{ backgroundColor: '#1E293B', color: 'white', padding: '48px 24px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-            gap: '32px' 
-          }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-                <div style={{ 
-                  width: '32px', 
-                  height: '32px', 
-                  background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
-                  borderRadius: '6px', 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center' 
-                }}>
-                  <span style={{ color: 'white', fontWeight: 'bold' }}>B</span>
+      <footer className="bg-white border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="col-span-1 md:col-span-2">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-emerald-600 rounded-xl flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">B</span>
                 </div>
-                <span style={{ fontSize: '18px', fontWeight: 'bold' }}>Better Sell</span>
+                <div>
+                  <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
+                    Better Sell
+                  </h1>
+                  <p className="text-xs text-slate-500">Franchise Intelligence Platform</p>
+                </div>
               </div>
-              <p style={{ color: '#94A3B8', fontSize: '14px' }}>
-                Franchise investment planning platform for the Better Tech ecosystem.
+              <p className="text-slate-600 max-w-md">
+                Advanced franchise investment planning for the Better Tech ecosystem. 
+                Strategic modeling for Q1 2026 expansion.
               </p>
             </div>
+            
             <div>
-              <h3 style={{ fontWeight: '600', marginBottom: '16px' }}>Planning Tools</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <Link href="/planning" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Territory Analysis</Link>
-                <Link href="/scenarios" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Financial Scenarios</Link>
-                <Link href="/presentation" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Investment Presentation</Link>
+              <h3 className="font-bold text-slate-900 mb-4">Platform</h3>
+              <div className="space-y-3 text-sm">
+                <Link href="/planning" className="block text-slate-600 hover:text-slate-900 transition-colors">Territory Analysis</Link>
+                <Link href="/scenarios" className="block text-slate-600 hover:text-slate-900 transition-colors">Financial Scenarios</Link>
+                <Link href="/presentation" className="block text-slate-600 hover:text-slate-900 transition-colors">Investment Proposals</Link>
               </div>
             </div>
+            
             <div>
-              <h3 style={{ fontWeight: '600', marginBottom: '16px' }}>Resources</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Franchise Guide</Link>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Financial Templates</Link>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Market Research</Link>
-              </div>
-            </div>
-            <div>
-              <h3 style={{ fontWeight: '600', marginBottom: '16px' }}>Better Tech</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>About Us</Link>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Privacy Policy</Link>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Terms of Use</Link>
+              <h3 className="font-bold text-slate-900 mb-4">Better Tech</h3>
+              <div className="space-y-3 text-sm">
+                <a href="#" className="block text-slate-600 hover:text-slate-900 transition-colors">About Us</a>
+                <a href="#" className="block text-slate-600 hover:text-slate-900 transition-colors">Privacy Policy</a>
+                <a href="#" className="block text-slate-600 hover:text-slate-900 transition-colors">Terms of Service</a>
               </div>
             </div>
           </div>
-          <div style={{ 
-            borderTop: '1px solid #334155', 
-            marginTop: '32px', 
-            paddingTop: '32px', 
-            textAlign: 'center' 
-          }}>
-            <p style={{ fontSize: '14px', color: '#94A3B8' }}>
-              © 2024 Better Tech. All rights reserved. Franchise planning tool for Q1 2026 launch.
+          
+          <div className="border-t border-slate-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-slate-500 text-sm">
+              © 2024 Better Tech. All rights reserved. Strategic franchise planning for Q1 2026.
             </p>
+            <div className="flex items-center space-x-4 mt-4 md:mt-0">
+              <div className="flex items-center space-x-1 text-amber-500">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-current" />
+                ))}
+              </div>
+              <span className="text-sm text-slate-600">Professional Planning Platform</span>
+            </div>
           </div>
         </div>
       </footer>

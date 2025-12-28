@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, TrendingUp, TrendingDown, Calculator, BarChart3, DollarSign, Users, Target, Sliders, RefreshCw } from "lucide-react"
+import { ArrowRight, TrendingUp, TrendingDown, Calculator, BarChart3, DollarSign, Users, Target, Sliders, RefreshCw, Lightbulb } from "lucide-react"
 import Link from "next/link"
 
 export default function Scenarios() {
@@ -11,101 +11,102 @@ export default function Scenarios() {
   const [customParams, setCustomParams] = useState({
     conversionRate: 16,
     avgDealSize: 22000,
-    leadsPerMonth: 440,
+    marketPenetration: 0.003,
     operationalCosts: 8000,
     marketGrowth: 12
   })
 
   const territories = {
-    high: { name: 'Alto Poder Aquisitivo', investment: 60000, regions: 'SP, RJ, DF' },
-    medium: { name: 'Médio Poder Aquisitivo', investment: 50000, regions: 'PR, SC, MG, BA' },
-    low: { name: 'Baixo Poder Aquisitivo', investment: 40000, regions: 'Norte, Interior NE' }
+    premium: { name: 'Metro Premium', investment: 60000, regions: 'São Paulo, Rio de Janeiro, Brasília', marketSize: 2500000 },
+    growth: { name: 'Regional Growth', investment: 50000, regions: 'Capitais Sul/Sudeste/Nordeste', marketSize: 1800000 },
+    emerging: { name: 'Emerging Markets', investment: 40000, regions: 'Interior e cidades médias', marketSize: 1200000 }
   }
 
   const scenarios = {
     pessimistic: {
-      name: 'Pessimista',
-      description: 'Cenário conservador com challenges de mercado',
+      name: 'Conservative',
+      description: 'Conservative scenario with market challenges',
       color: '#EF4444',
       icon: TrendingDown,
       params: {
         conversionRate: 8,
         avgDealSize: 18000,
-        leadsPerMonth: 440,
+        marketPenetration: 0.001,
         operationalCosts: 12000,
         marketGrowth: 5
       },
       assumptions: [
-        'Mercado competitivo com alta resistência',
-        'Ciclo de vendas 40% mais longo',
-        'Custos operacionais elevados',
-        'Rotatividade alta de leads'
+        'Competitive market with high resistance',
+        'Longer sales cycles and ramp-up time',
+        'Higher operational costs during learning phase',
+        'Organic lead generation takes time to scale'
       ]
     },
     realistic: {
-      name: 'Realista',
-      description: 'Projeção baseada em dados de mercado',
+      name: 'Realistic',
+      description: 'Market-based projections with proven strategies',
       color: '#F59E0B',
       icon: TrendingUp,
       params: {
         conversionRate: 16,
         avgDealSize: 22000,
-        leadsPerMonth: 440,
+        marketPenetration: 0.003,
         operationalCosts: 8000,
         marketGrowth: 12
       },
       assumptions: [
-        'Performance alinhada com mercado',
-        'Crescimento gradual e sustentável',
-        'Custos controlados',
-        'Mix de clientes equilibrado'
+        'Performance aligned with market benchmarks',
+        'Gradual and sustainable growth pattern',
+        'Controlled operational costs',
+        'Balanced client acquisition mix'
       ]
     },
     optimistic: {
-      name: 'Otimista',
-      description: 'Cenário com excelente execução',
+      name: 'Optimistic',
+      description: 'Excellent execution with strong network effects',
       color: '#10B981',
       icon: TrendingUp,
       params: {
         conversionRate: 28,
         avgDealSize: 28000,
-        leadsPerMonth: 440,
+        marketPenetration: 0.008,
         operationalCosts: 6000,
         marketGrowth: 25
       },
       assumptions: [
-        'Execução excepcional da estratégia',
-        'Network forte e referências',
-        'Eficiência operacional otimizada',
-        'Expansão acelerada'
+        'Exceptional strategy execution',
+        'Strong referral network and partnerships',
+        'Optimized operational efficiency',
+        'Accelerated market penetration'
       ]
     },
     custom: {
-      name: 'Personalizado',
-      description: 'Ajuste seus próprios parâmetros',
+      name: 'Custom',
+      description: 'Adjust your own parameters',
       color: '#8B5CF6',
       icon: Sliders,
       params: customParams,
       assumptions: [
-        'Parâmetros definidos pelo usuário',
-        'Cenário customizado',
-        'Variáveis ajustáveis',
-        'Simulação personalizada'
+        'User-defined parameters',
+        'Customized scenario modeling',
+        'Adjustable variables',
+        'Personalized simulation'
       ]
     }
   }
 
   const calculateProjections = (scenarioParams: any, territory: any) => {
-    const monthlyLeads = scenarioParams.leadsPerMonth
+    // Organic lead generation based on market penetration
+    const monthlyLeads = Math.round((territory.marketSize * scenarioParams.marketPenetration) / 12)
     const conversionRate = scenarioParams.conversionRate / 100
     const monthlyDeals = monthlyLeads * conversionRate
     const monthlyRevenue = monthlyDeals * scenarioParams.avgDealSize
-    const franchiseShare = monthlyRevenue * 0.25 // 25% commission
+    const franchiseShare = monthlyRevenue * 0.25 // 25% franchise commission
     const netMonthlyRevenue = franchiseShare - scenarioParams.operationalCosts
     const annualRevenue = netMonthlyRevenue * 12
-    const totalInvestment = territory.investment + 30000 // Adding lead package cost
+    const totalInvestment = territory.investment // Only franchise investment
     const roi = (annualRevenue / totalInvestment) * 100
-    const paybackMonths = totalInvestment / netMonthlyRevenue
+    const paybackMonths = totalInvestment / Math.max(netMonthlyRevenue, 1)
 
     return {
       monthlyLeads,
@@ -117,7 +118,8 @@ export default function Scenarios() {
       totalInvestment,
       roi,
       paybackMonths,
-      conversionRate: scenarioParams.conversionRate
+      conversionRate: scenarioParams.conversionRate,
+      marketPenetration: (scenarioParams.marketPenetration * 100).toFixed(3)
     }
   }
 
@@ -130,340 +132,363 @@ export default function Scenarios() {
   const selectedScenarioData = scenarios[selectedScenario as keyof typeof scenarios]
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #F8FAFC 0%, rgba(59, 130, 246, 0.02) 100%)' }}>
-      {/* Header */}
-      <header style={{ 
-        background: 'rgba(255, 255, 255, 0.95)', 
-        backdropFilter: 'blur(20px)', 
-        borderBottom: '1px solid rgba(59, 130, 246, 0.1)', 
-        position: 'sticky', 
-        top: 0, 
-        zIndex: 50 
-      }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
-            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-              <div style={{ 
-                width: '40px', 
-                height: '40px', 
-                background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
-                borderRadius: '8px', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center' 
-              }}>
-                <span style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}>B</span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <Link href="/" className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-emerald-600 rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-lg">B</span>
               </div>
               <div>
-                <h1 style={{ 
-                  fontSize: '20px', 
-                  fontWeight: 'bold', 
-                  background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
-                  WebkitBackgroundClip: 'text', 
-                  backgroundClip: 'text', 
-                  color: 'transparent',
-                  margin: 0
-                }}>
+                <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
                   Better Sell
                 </h1>
-                <p style={{ fontSize: '12px', color: '#64748B', margin: 0 }}>Scenario Modeling</p>
+                <p className="text-xs text-slate-500 -mt-1">Scenario Modeling</p>
               </div>
             </Link>
             
-            <nav style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-              <Link href="/planning" style={{ 
-                color: '#64748B', 
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-                fontWeight: '500'
-              }}>
+            <div className="flex items-center space-x-8">
+              <Link href="/planning" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">
                 Back to Planning
               </Link>
               <Link href="/presentation">
-                <Button size="sm">
+                <Button size="sm" className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700">
                   View Presentation
-                  <ArrowRight style={{ width: '16px', height: '16px', marginLeft: '8px' }} />
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
-            </nav>
+            </div>
           </div>
         </div>
-      </header>
+      </nav>
 
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '40px 24px' }}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
         
         {/* Page Header */}
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#1E293B', marginBottom: '16px' }}>
-            Análise de Cenários
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-blue-700 text-sm font-medium mb-8">
+            <Calculator className="w-4 h-4 mr-2" />
+            Financial Scenario Analysis
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+            Scenario Modeling
           </h2>
-          <p style={{ fontSize: '18px', color: '#64748B', maxWidth: '700px', margin: '0 auto' }}>
-            Compare diferentes cenários financeiros e ajuste parâmetros para simular diversos contextos de mercado
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            Compare different financial scenarios based on organic lead generation strategies 
+            and market penetration approaches. Model various market conditions and execution levels.
           </p>
         </div>
 
         {/* Scenario Selector */}
-        <div style={{ marginBottom: '40px' }}>
-          <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '24px' }}>
-            Selecione um Cenário
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-slate-900 mb-8">
+            Select a Scenario
           </h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
-            {Object.entries(scenarios).map(([key, scenario]) => (
-              <Card 
-                key={key}
-                style={{ 
-                  border: selectedScenario === key ? `2px solid ${scenario.color}` : '1px solid #E2E8F0',
-                  background: selectedScenario === key ? `${scenario.color}08` : 'white',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  borderRadius: '12px'
-                }}
-                onClick={() => setSelectedScenario(key)}
-              >
-                <CardContent style={{ padding: '20px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                    <div style={{ 
-                      width: '40px', 
-                      height: '40px',
-                      background: scenario.color,
-                      borderRadius: '10px', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center' 
-                    }}>
-                      <scenario.icon style={{ width: '20px', height: '20px', color: 'white' }} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Object.entries(scenarios).map(([key, scenario]) => {
+              const isSelected = selectedScenario === key
+              return (
+                <Card 
+                  key={key}
+                  className={`cursor-pointer transition-all duration-300 hover:shadow-lg ${
+                    isSelected ? 'ring-2 shadow-lg' : 'hover:shadow-md'
+                  }`}
+                  style={{ 
+                    borderColor: isSelected ? scenario.color : undefined,
+                    backgroundColor: isSelected ? `${scenario.color}08` : undefined
+                  }}
+                  onClick={() => setSelectedScenario(key)}
+                >
+                  <CardContent className="p-6">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div 
+                        className="w-12 h-12 rounded-xl flex items-center justify-center"
+                        style={{ backgroundColor: scenario.color }}
+                      >
+                        <scenario.icon className="w-6 h-6 text-white" />
+                      </div>
+                      <h4 className="text-lg font-bold text-slate-900">
+                        {scenario.name}
+                      </h4>
                     </div>
-                    <h4 style={{ fontSize: '16px', fontWeight: 'bold', margin: 0 }}>
-                      {scenario.name}
-                    </h4>
-                  </div>
-                  <p style={{ fontSize: '14px', color: '#64748B', margin: 0 }}>
-                    {scenario.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+                    <p className="text-sm text-slate-600">
+                      {scenario.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              )
+            })}
           </div>
         </div>
 
         {/* Custom Parameters */}
         {selectedScenario === 'custom' && (
-          <Card style={{ marginBottom: '40px', padding: '32px' }}>
-            <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '24px' }}>
-              Ajustar Parâmetros Personalizados
-            </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px' }}>
+          <Card className="mb-16 p-8 bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl flex items-center justify-center">
+                <Sliders className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900">
+                Adjust Custom Parameters
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Object.entries(customParams).map(([key, value]) => {
                 const labels = {
-                  conversionRate: 'Taxa de Conversão (%)',
-                  avgDealSize: 'Ticket Médio (R$)',
-                  leadsPerMonth: 'Leads por Mês',
-                  operationalCosts: 'Custos Operacionais (R$)',
-                  marketGrowth: 'Crescimento do Mercado (%)'
+                  conversionRate: 'Conversion Rate (%)',
+                  avgDealSize: 'Average Deal Size (R$)',
+                  marketPenetration: 'Market Penetration (%)',
+                  operationalCosts: 'Monthly Operational Costs (R$)',
+                  marketGrowth: 'Annual Market Growth (%)'
                 }
+                const adjustedValue = key === 'marketPenetration' ? value * 100 : value
                 return (
-                  <div key={key}>
-                    <label style={{ 
-                      display: 'block', 
-                      fontSize: '14px', 
-                      fontWeight: '600', 
-                      marginBottom: '8px',
-                      color: '#374151' 
-                    }}>
+                  <div key={key} className="bg-white rounded-lg p-4 border border-slate-200">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
                       {labels[key as keyof typeof labels]}
                     </label>
                     <input
                       type="number"
-                      value={value}
-                      onChange={(e) => setCustomParams({
-                        ...customParams,
-                        [key]: parseFloat(e.target.value) || 0
-                      })}
-                      style={{
-                        width: '100%',
-                        padding: '12px',
-                        border: '1px solid #D1D5DB',
-                        borderRadius: '8px',
-                        fontSize: '16px',
-                        outline: 'none',
-                        transition: 'border-color 0.2s'
+                      step={key === 'marketPenetration' ? '0.001' : key === 'conversionRate' ? '1' : '1000'}
+                      value={adjustedValue}
+                      onChange={(e) => {
+                        const newValue = parseFloat(e.target.value) || 0
+                        const finalValue = key === 'marketPenetration' ? newValue / 100 : newValue
+                        setCustomParams({
+                          ...customParams,
+                          [key]: finalValue
+                        })
                       }}
+                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     />
                   </div>
                 )
               })}
             </div>
             <Button 
-              style={{ marginTop: '24px' }}
-              onClick={() => {
-                // Trigger recalculation
-                setSelectedScenario('custom')
-              }}
+              size="lg"
+              className="mt-6 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+              onClick={() => setSelectedScenario('custom')}
             >
-              <RefreshCw style={{ width: '16px', height: '16px', marginRight: '8px' }} />
-              Atualizar Projeções
+              <RefreshCw className="w-5 h-5 mr-2" />
+              Update Projections
             </Button>
           </Card>
         )}
 
         {/* Scenario Details */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '32px', marginBottom: '40px' }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           
           {/* Scenario Info */}
-          <Card style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px' }}>
-              {selectedScenarioData.name}
-            </h3>
-            <p style={{ color: '#64748B', marginBottom: '24px' }}>
+          <Card className="p-8">
+            <div className="flex items-center space-x-3 mb-6">
+              <div 
+                className="w-12 h-12 rounded-xl flex items-center justify-center"
+                style={{ backgroundColor: selectedScenarioData.color }}
+              >
+                <selectedScenarioData.icon className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900">
+                {selectedScenarioData.name} Scenario
+              </h3>
+            </div>
+            
+            <p className="text-slate-600 mb-8">
               {selectedScenarioData.description}
             </p>
             
-            <h4 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>
-              Premissas do Cenário:
-            </h4>
-            <ul style={{ paddingLeft: '20px', lineHeight: '1.6' }}>
-              {selectedScenarioData.assumptions.map((assumption, index) => (
-                <li key={index} style={{ marginBottom: '8px', fontSize: '14px' }}>
-                  {assumption}
-                </li>
-              ))}
-            </ul>
-
-            <div style={{ marginTop: '24px' }}>
-              <h4 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '12px' }}>
-                Parâmetros Principais:
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold text-slate-900 mb-4">
+                Key Assumptions:
               </h4>
-              <div style={{ display: 'grid', gap: '8px', fontSize: '14px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Taxa de Conversão:</span>
-                  <strong>{selectedScenarioData.params.conversionRate}%</strong>
+              <div className="space-y-3">
+                {selectedScenarioData.assumptions.map((assumption, index) => (
+                  <div key={index} className="flex items-start space-x-2">
+                    <div 
+                      className="w-2 h-2 rounded-full mt-2 flex-shrink-0"
+                      style={{ backgroundColor: selectedScenarioData.color }}
+                    ></div>
+                    <span className="text-sm text-slate-600">{assumption}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-slate-50 rounded-lg p-6">
+              <h4 className="text-lg font-semibold text-slate-900 mb-4">
+                Key Parameters:
+              </h4>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-slate-600">Conversion Rate:</span>
+                  <strong className="text-slate-900">{selectedScenarioData.params.conversionRate}%</strong>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Ticket Médio:</span>
-                  <strong>R$ {selectedScenarioData.params.avgDealSize.toLocaleString()}</strong>
+                <div className="flex justify-between">
+                  <span className="text-slate-600">Avg Deal Size:</span>
+                  <strong className="text-slate-900">R$ {selectedScenarioData.params.avgDealSize.toLocaleString()}</strong>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Leads/Mês:</span>
-                  <strong>{selectedScenarioData.params.leadsPerMonth}</strong>
+                <div className="flex justify-between">
+                  <span className="text-slate-600">Market Penetration:</span>
+                  <strong className="text-slate-900">{(selectedScenarioData.params.marketPenetration * 100).toFixed(3)}%</strong>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Custos Operacionais:</span>
-                  <strong>R$ {selectedScenarioData.params.operationalCosts.toLocaleString()}</strong>
+                <div className="flex justify-between">
+                  <span className="text-slate-600">Monthly OpEx:</span>
+                  <strong className="text-slate-900">R$ {selectedScenarioData.params.operationalCosts.toLocaleString()}</strong>
                 </div>
               </div>
             </div>
           </Card>
 
-          {/* Projections Chart Placeholder */}
-          <Card style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px' }}>
-              Projeção Anual de Receita
+          {/* Strategic Overview */}
+          <Card className="p-8 bg-gradient-to-br from-slate-50 to-blue-50">
+            <h3 className="text-2xl font-bold text-slate-900 mb-6">
+              Strategic Approach
             </h3>
-            <div style={{ 
-              height: '300px', 
-              background: 'linear-gradient(135deg, #F8FAFC 0%, rgba(59, 130, 246, 0.02) 100%)',
-              borderRadius: '12px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#64748B',
-              fontSize: '16px',
-              marginBottom: '24px'
-            }}>
-              Gráfico de Crescimento Mensal
-              <br />
-              <span style={{ fontSize: '14px' }}>
-                Cenário: {selectedScenarioData.name} | ROI Médio: {Math.round(projections.reduce((acc, p) => acc + p.roi, 0) / projections.length)}%
-              </span>
+            
+            <div className="space-y-6">
+              <div className="bg-white rounded-lg p-6 border border-blue-200">
+                <h4 className="font-semibold text-slate-900 mb-3">Organic Lead Generation Focus</h4>
+                <p className="text-sm text-slate-600 mb-4">
+                  This scenario is based on building sustainable, organic lead generation capabilities rather than purchased lead volumes.
+                </p>
+                <div className="flex items-center space-x-2">
+                  <Lightbulb className="w-5 h-5 text-blue-600" />
+                  <span className="text-sm font-medium text-blue-900">
+                    Market Penetration: {(selectedScenarioData.params.marketPenetration * 100).toFixed(3)}% monthly
+                  </span>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white rounded-lg p-4 text-center border border-slate-200">
+                  <div 
+                    className="text-2xl font-bold mb-1"
+                    style={{ color: selectedScenarioData.color }}
+                  >
+                    {Math.round(projections.reduce((acc, p) => acc + p.roi, 0) / projections.length)}%
+                  </div>
+                  <div className="text-sm text-slate-600">Average ROI</div>
+                </div>
+                <div className="bg-white rounded-lg p-4 text-center border border-slate-200">
+                  <div 
+                    className="text-2xl font-bold mb-1"
+                    style={{ color: selectedScenarioData.color }}
+                  >
+                    {Math.round(projections.reduce((acc, p) => acc + p.paybackMonths, 0) / projections.length)}
+                  </div>
+                  <div className="text-sm text-slate-600">Avg Payback (months)</div>
+                </div>
+              </div>
             </div>
           </Card>
         </div>
 
         {/* Territory Comparison */}
         <div>
-          <h3 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '24px' }}>
-            Comparação por Território
+          <h3 className="text-2xl font-bold text-slate-900 mb-8">
+            Territory Comparison
           </h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '24px' }}>
-            {projections.map((proj) => (
-              <Card key={proj.territory} style={{ 
-                padding: '24px',
-                border: `2px solid ${selectedScenarioData.color}20`,
-                background: `${selectedScenarioData.color}05`
-              }}>
-                <div style={{ marginBottom: '20px' }}>
-                  <h4 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>
-                    {proj.name}
-                  </h4>
-                  <p style={{ color: '#64748B', fontSize: '14px', margin: 0 }}>
-                    Investimento: R$ {proj.totalInvestment.toLocaleString()}
-                  </p>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {projections.map((proj) => {
+              const gradients = ['from-blue-500 to-blue-600', 'from-emerald-500 to-emerald-600', 'from-purple-500 to-purple-600']
+              const index = Object.keys(territories).indexOf(proj.territory)
+              return (
+                <Card 
+                  key={proj.territory}
+                  className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  style={{ 
+                    border: `2px solid ${selectedScenarioData.color}20`,
+                    backgroundColor: `${selectedScenarioData.color}05`
+                  }}
+                >
+                  <div className={`h-2 bg-gradient-to-r ${gradients[index]}`}></div>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <h4 className="text-xl font-bold text-slate-900">{proj.name}</h4>
+                      <div className="text-right">
+                        <div className="text-lg font-bold text-emerald-600">
+                          R$ {proj.totalInvestment.toLocaleString()}
+                        </div>
+                        <div className="text-xs text-slate-500">Investment</div>
+                      </div>
+                    </div>
 
-                <div style={{ display: 'grid', gap: '16px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                    <div>
-                      <span style={{ fontSize: '12px', color: '#64748B' }}>Leads/Mês:</span>
-                      <p style={{ fontWeight: '600', margin: 0 }}>{proj.monthlyLeads}</p>
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '12px', color: '#64748B' }}>Conversão:</span>
-                      <p style={{ fontWeight: '600', margin: 0 }}>{proj.conversionRate}%</p>
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '12px', color: '#64748B' }}>Vendas/Mês:</span>
-                      <p style={{ fontWeight: '600', margin: 0 }}>{proj.monthlyDeals}</p>
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '12px', color: '#64748B' }}>Receita Bruta:</span>
-                      <p style={{ fontWeight: '600', margin: 0 }}>R$ {Math.round(proj.franchiseShare).toLocaleString()}</p>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="text-slate-500">Market Reach:</span>
+                          <p className="font-semibold text-slate-900">{proj.monthlyLeads} leads/mo</p>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">Conversion:</span>
+                          <p className="font-semibold text-slate-900">{proj.conversionRate}%</p>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">Monthly Deals:</span>
+                          <p className="font-semibold text-slate-900">{proj.monthlyDeals}</p>
+                        </div>
+                        <div>
+                          <span className="text-slate-500">Franchise Share:</span>
+                          <p className="font-semibold text-slate-900">R$ {Math.round(proj.franchiseShare).toLocaleString()}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="border-t border-slate-200 pt-4">
+                        <div className="mb-3">
+                          <span className="text-slate-500 text-sm">Net Monthly Revenue:</span>
+                          <p 
+                            className="text-2xl font-bold mt-1"
+                            style={{ color: selectedScenarioData.color }}
+                          >
+                            R$ {Math.round(proj.netMonthlyRevenue).toLocaleString()}
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <span className="text-slate-500">Annual ROI:</span>
+                            <p 
+                              className="font-bold text-lg"
+                              style={{ color: selectedScenarioData.color }}
+                            >
+                              {proj.roi.toFixed(1)}%
+                            </p>
+                          </div>
+                          <div>
+                            <span className="text-slate-500">Payback:</span>
+                            <p className="font-semibold text-slate-900">
+                              {proj.paybackMonths.toFixed(1)} months
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  
-                  <div style={{ borderTop: '1px solid #E2E8F0', paddingTop: '16px' }}>
-                    <div style={{ marginBottom: '12px' }}>
-                      <span style={{ fontSize: '12px', color: '#64748B' }}>Receita Líquida Mensal:</span>
-                      <p style={{ fontWeight: 'bold', fontSize: '20px', color: selectedScenarioData.color, margin: '4px 0' }}>
-                        R$ {Math.round(proj.netMonthlyRevenue).toLocaleString()}
-                      </p>
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '14px' }}>
-                      <div>
-                        <span style={{ color: '#64748B' }}>ROI Anual:</span>
-                        <p style={{ fontWeight: 'bold', color: selectedScenarioData.color, margin: 0 }}>
-                          {proj.roi.toFixed(1)}%
-                        </p>
-                      </div>
-                      <div>
-                        <span style={{ color: '#64748B' }}>Payback:</span>
-                        <p style={{ fontWeight: '600', margin: 0 }}>
-                          {proj.paybackMonths.toFixed(1)} meses
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              )
+            })}
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div style={{ 
-          marginTop: '48px',
-          display: 'flex', 
-          justifyContent: 'center',
-          gap: '16px' 
-        }}>
+        <div className="flex justify-center space-x-4 mt-16">
           <Link href="/planning">
-            <Button variant="outline">
-              Ajustar Parâmetros
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="px-8 py-3 text-lg border-slate-300 hover:bg-slate-50"
+            >
+              Adjust Parameters
             </Button>
           </Link>
           <Link href="/presentation">
-            <Button>
-              Gerar Apresentação
-              <ArrowRight style={{ width: '16px', height: '16px', marginLeft: '8px' }} />
+            <Button 
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white px-8 py-3 text-lg"
+            >
+              Generate Presentation
+              <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </Link>
         </div>
