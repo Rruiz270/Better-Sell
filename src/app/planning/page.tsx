@@ -421,7 +421,7 @@ export default function Planning() {
                 <h3 className="text-2xl font-bold text-slate-900 mb-8">Revenue Distribution (%)</h3>
                 {businessModels.map((model) => {
                   const key = model.type.toLowerCase().replace('2', '2') as keyof typeof planningData.businessMix
-                  const priorityColors = {
+                  const priorityColors: { [key: string]: string } = {
                     'Alta': 'text-emerald-600 bg-emerald-50',
                     'Média': 'text-blue-600 bg-blue-50', 
                     'Baixa': 'text-slate-600 bg-slate-50'
@@ -742,6 +742,7 @@ export default function Planning() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </>
   )
