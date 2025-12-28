@@ -3,74 +3,135 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, BarChart3, Users, Globe, TrendingUp, Zap, Shield, Star, CheckCircle } from "lucide-react"
+import { ArrowRight, Calculator, TrendingUp, MapPin, Building2, Users, Target, BarChart3, DollarSign, Zap, PlayCircle } from "lucide-react"
 import Link from "next/link"
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [selectedTerritory, setSelectedTerritory] = useState('')
+  const [currentStep, setCurrentStep] = useState(0)
 
-  const brands = [
+  const territories = [
     { 
-      name: 'Alumni', 
-      description: 'English & Spanish Learning', 
-      color: 'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)', 
-      icon: '🎓',
-      features: ['Certificação Internacional', 'Método Imersivo', 'Suporte 24/7']
+      name: 'Alto Poder Aquisitivo', 
+      regions: 'SP, RJ, DF', 
+      investment: 'R$ 60.000', 
+      marketSize: '2.5M professionals',
+      avgTicket: 'R$ 2.800',
+      competition: 'Alta',
+      id: 'high'
     },
     { 
-      name: 'TEACH', 
-      description: 'AI Education Platform', 
-      color: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)', 
-      icon: '🤖',
-      features: ['IA Personalizada', 'Analytics Avançado', 'Integração LMS']
+      name: 'Médio Poder Aquisitivo', 
+      regions: 'PR, SC, MG, BA', 
+      investment: 'R$ 50.000', 
+      marketSize: '1.8M professionals',
+      avgTicket: 'R$ 2.200',
+      competition: 'Média',
+      id: 'medium'
     },
     { 
-      name: 'Sprix', 
-      description: 'Coding & Mathematics', 
-      color: 'linear-gradient(135deg, #10B981 0%, #059669 100%)', 
-      icon: '💻',
-      features: ['Gamificação', 'Projetos Reais', 'Mentoria Individual']
-    },
-    { 
-      name: 'JINSO', 
-      description: 'Testing & WhatsApp Solutions', 
-      color: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)', 
-      icon: '📱',
-      features: ['Automação WhatsApp', 'Testes A/B', 'CRM Integrado']
-    },
-    { 
-      name: 'Kidpreneurs', 
-      description: 'Entrepreneurship for Kids', 
-      color: 'linear-gradient(135deg, #EC4899 0%, #BE185D 100%)', 
-      icon: '👶',
-      features: ['Metodologia Lúdica', 'Projetos Práticos', 'Desenvolvimento Socioemocional']
-    },
+      name: 'Baixo Poder Aquisitivo', 
+      regions: 'Norte e Interior Nordeste', 
+      investment: 'R$ 40.000', 
+      marketSize: '1.2M professionals',
+      avgTicket: 'R$ 1.800',
+      competition: 'Baixa',
+      id: 'low'
+    }
   ]
 
-  const stats = [
-    { label: 'Franqueados Ativos', value: '250+', icon: Users },
-    { label: 'Comissão Média', value: '20%', icon: TrendingUp },
-    { label: 'Estados Cobertos', value: '15', icon: Globe },
-    { label: 'Crescimento', value: '+45%', icon: BarChart3 },
+  const businessModels = [
+    {
+      type: 'B2B',
+      priority: 'Alta',
+      description: 'Vendas diretas para empresas',
+      revenue: '60% do faturamento',
+      avgDeal: 'R$ 25.000',
+      cycle: '45-90 dias'
+    },
+    {
+      type: 'B2B2C',
+      priority: 'Alta', 
+      description: 'Parcerias com empresas para funcionários',
+      revenue: '25% do faturamento',
+      avgDeal: 'R$ 15.000',
+      cycle: '30-60 dias'
+    },
+    {
+      type: 'B2S',
+      priority: 'Média',
+      description: 'Vendas para escolas e instituições',
+      revenue: '10% do faturamento', 
+      avgDeal: 'R$ 35.000',
+      cycle: '60-120 dias'
+    },
+    {
+      type: 'B2S2C',
+      priority: 'Média',
+      description: 'Parcerias com escolas para alunos',
+      revenue: '4% do faturamento',
+      avgDeal: 'R$ 8.000', 
+      cycle: '30-45 dias'
+    },
+    {
+      type: 'B2C',
+      priority: 'Baixa',
+      description: 'Vendas diretas para consumidores',
+      revenue: '1% do faturamento',
+      avgDeal: 'R$ 2.500',
+      cycle: '7-15 dias'
+    }
   ]
 
-  const benefits = [
-    { title: 'Investimento Fixo', description: 'Apenas R$ 50.000 para começar', icon: '💰' },
-    { title: 'Comissão Unificada', description: '20% em todas as marcas', icon: '📈' },
-    { title: 'Suporte Completo', description: 'Treinamento e mentoria contínua', icon: '🤝' },
-    { title: 'Território Exclusivo', description: 'Gestão inteligente de leads', icon: '🗺️' },
+  const planningSteps = [
+    { 
+      step: '01',
+      title: 'Análise Territorial', 
+      description: 'Selecione sua região e analise potencial de mercado',
+      icon: MapPin,
+      color: '#3B82F6'
+    },
+    { 
+      step: '02', 
+      title: 'Modelo de Negócio',
+      description: 'Configure mix B2B/B2B2C/B2S com foco estratégico',
+      icon: Building2,
+      color: '#10B981'
+    },
+    { 
+      step: '03',
+      title: 'Projeção Financeira',
+      description: 'Modele 3 cenários com ROI de 10 anos',
+      icon: Calculator,
+      color: '#8B5CF6'
+    },
+    { 
+      step: '04',
+      title: 'Apresentação Final',
+      description: 'Gere sua proposta personalizada de investimento', 
+      icon: BarChart3,
+      color: '#F59E0B'
+    }
+  ]
+
+  const keyMetrics = [
+    { title: 'Investment Range', value: 'R$ 40k - R$ 60k', description: 'Based on territory', icon: DollarSign },
+    { title: 'Revenue Split', value: '25% Franchise', description: '75% Franqueadora', icon: TrendingUp },
+    { title: 'Lead Packages', value: '10-40 leads/day', description: 'Scalable plans', icon: Target },
+    { title: 'Target Launch', value: '5 Franchisees', description: 'Q1 2026', icon: Users },
   ]
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #F8FAFC 0%, rgba(59, 130, 246, 0.02) 100%)' }}>
       {/* Header */}
       <header style={{ 
-        backgroundColor: 'rgba(255, 255, 255, 0.95)', 
-        backdropFilter: 'blur(10px)', 
-        borderBottom: '1px solid #E2E8F0', 
+        background: 'rgba(255, 255, 255, 0.95)', 
+        backdropFilter: 'blur(20px)', 
+        borderBottom: '1px solid rgba(59, 130, 246, 0.1)', 
         position: 'sticky', 
         top: 0, 
-        zIndex: 50 
+        zIndex: 50,
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)'
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
@@ -86,44 +147,46 @@ export default function Home() {
               }}>
                 <span style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}>B</span>
               </div>
-              <h1 style={{ 
-                fontSize: '24px', 
-                fontWeight: 'bold', 
-                background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
-                WebkitBackgroundClip: 'text', 
-                backgroundClip: 'text', 
-                color: 'transparent' 
-              }}>
-                Better Sell
-              </h1>
+              <div>
+                <h1 style={{ 
+                  fontSize: '20px', 
+                  fontWeight: 'bold', 
+                  background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
+                  WebkitBackgroundClip: 'text', 
+                  backgroundClip: 'text', 
+                  color: 'transparent',
+                  margin: 0
+                }}>
+                  Better Sell
+                </h1>
+                <p style={{ fontSize: '12px', color: '#64748B', margin: 0 }}>Franchise Planning Tool</p>
+              </div>
             </div>
             <nav style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-              <Link href="/dashboard" style={{ 
-                color: '#64748B', 
-                textDecoration: 'none',
-                transition: 'color 0.2s',
-                fontWeight: '500'
-              }}>
-                Dashboard
-              </Link>
               <Link href="/planning" style={{ 
                 color: '#64748B', 
                 textDecoration: 'none',
                 transition: 'color 0.2s',
                 fontWeight: '500'
               }}>
-                Financeiro
+                Planning
               </Link>
-              <Link href="/business-plan" style={{ 
+              <Link href="/scenarios" style={{ 
                 color: '#64748B', 
                 textDecoration: 'none',
                 transition: 'color 0.2s',
                 fontWeight: '500'
               }}>
-                Plano de Negócios
+                Scenarios
               </Link>
-              <Button variant="outline" size="sm">Login</Button>
-              <Button size="sm">Quero ser Franqueado</Button>
+              <Link href="/presentation" style={{ 
+                color: '#64748B', 
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+                fontWeight: '500'
+              }}>
+                Presentation
+              </Link>
             </nav>
           </div>
         </div>
@@ -131,149 +194,84 @@ export default function Home() {
 
       {/* Hero Section */}
       <section style={{ 
-        padding: '120px 24px 100px 24px', 
+        padding: '80px 24px 60px 24px', 
         textAlign: 'center',
         background: 'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.05) 0%, rgba(16, 185, 129, 0.05) 45%, rgba(248, 250, 252, 1) 100%)',
         position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Background Effects */}
-        <div style={{
-          position: 'absolute',
-          top: '-50%',
-          left: '-20%',
-          width: '60%',
-          height: '200%',
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 50%)',
-          pointerEvents: 'none'
-        }} />
-        <div style={{
-          position: 'absolute',
-          top: '-30%',
-          right: '-20%',
-          width: '50%',
-          height: '150%',
-          background: 'radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 50%)',
-          pointerEvents: 'none'
-        }} />
-        
-        <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative' }}>
-          {/* Hero Badge */}
+        <div style={{ maxWidth: '900px', margin: '0 auto', position: 'relative' }}>
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
             padding: '8px 16px',
-            background: 'rgba(255, 255, 255, 0.8)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(59, 130, 246, 0.2)',
+            background: 'rgba(139, 92, 246, 0.1)',
+            border: '1px solid rgba(139, 92, 246, 0.2)',
             borderRadius: '50px',
             marginBottom: '32px',
             fontSize: '14px',
             fontWeight: '500',
-            color: '#3B82F6'
+            color: '#8B5CF6'
           }}>
-            <Zap style={{ width: '16px', height: '16px' }} />
-            ✨ Nova Plataforma Multi-Brand
+            <Calculator style={{ width: '16px', height: '16px' }} />
+            Franchise Investment Planner
           </div>
           
           <h1 style={{ 
-            fontSize: '4rem', 
+            fontSize: '3.5rem', 
             fontWeight: 'bold', 
-            marginBottom: '32px', 
+            marginBottom: '24px', 
             lineHeight: '1.1',
-            letterSpacing: '-0.02em'
+            letterSpacing: '-0.02em',
+            color: '#1E293B'
           }}>
+            Plan Your
             <span style={{ 
               background: 'linear-gradient(135deg, #3B82F6 0%, #10B981 100%)', 
               WebkitBackgroundClip: 'text', 
               backgroundClip: 'text', 
               color: 'transparent' 
-            }}>
-              Franquias
-            </span>{' '}
-            <span style={{ color: '#1E293B' }}>Educacionais</span>
-            <br />
-            <span style={{ 
-              background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)', 
-              WebkitBackgroundClip: 'text', 
-              backgroundClip: 'text', 
-              color: 'transparent' 
-            }}>Inteligentes</span>
+            }}> Better Sell </span>
+            Franchise
           </h1>
           
           <p style={{ 
-            fontSize: '22px', 
+            fontSize: '20px', 
             color: '#64748B', 
-            marginBottom: '48px', 
-            maxWidth: '750px', 
-            margin: '0 auto 48px auto',
+            marginBottom: '40px', 
+            maxWidth: '650px', 
+            margin: '0 auto 40px auto',
             lineHeight: '1.6' 
           }}>
-            Transforme sua carreira vendendo <strong style={{ color: '#3B82F6' }}>5 marcas premium</strong> de educação com uma única plataforma. 
-            <span style={{ color: '#10B981', fontWeight: '600' }}>20% de comissão</span> unificada e suporte completo.
+            Model your franchise investment with <strong>3 financial scenarios</strong>, territory analysis, and 
+            <strong> B2B-focused revenue planning</strong> for Q1 2026 launch.
           </p>
           
-          <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '48px' }}>
-            <div style={{
-              padding: '20px 32px',
-              background: 'rgba(255, 255, 255, 0.9)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(59, 130, 246, 0.1)',
-              borderRadius: '16px',
-              boxShadow: '0 8px 32px rgba(59, 130, 246, 0.12)',
-              transition: 'all 0.3s ease'
-            }}>
-              <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#3B82F6', marginBottom: '4px' }}>R$ 50k</div>
-              <div style={{ fontSize: '14px', color: '#64748B' }}>Investimento Inicial</div>
-            </div>
-            <div style={{
-              padding: '20px 32px',
-              background: 'rgba(255, 255, 255, 0.9)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(16, 185, 129, 0.1)',
-              borderRadius: '16px',
-              boxShadow: '0 8px 32px rgba(16, 185, 129, 0.12)',
-              transition: 'all 0.3s ease'
-            }}>
-              <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#10B981', marginBottom: '4px' }}>20%</div>
-              <div style={{ fontSize: '14px', color: '#64748B' }}>Comissão Unificada</div>
-            </div>
-            <div style={{
-              padding: '20px 32px',
-              background: 'rgba(255, 255, 255, 0.9)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(139, 92, 246, 0.1)',
-              borderRadius: '16px',
-              boxShadow: '0 8px 32px rgba(139, 92, 246, 0.12)',
-              transition: 'all 0.3s ease'
-            }}>
-              <div style={{ fontSize: '32px', fontWeight: 'bold', color: '#8B5CF6', marginBottom: '4px' }}>5</div>
-              <div style={{ fontSize: '14px', color: '#64748B' }}>Marcas Premium</div>
-            </div>
-          </div>
-          
-          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button style={{
-              padding: '16px 40px',
-              fontSize: '18px',
-              fontWeight: '600',
-              background: 'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '12px',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              boxShadow: '0 8px 25px rgba(59, 130, 246, 0.3)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              Quero Ser Franqueado
+          <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '40px' }}>
+            <button 
+              onClick={() => setCurrentStep(1)}
+              style={{
+                padding: '16px 32px',
+                fontSize: '18px',
+                fontWeight: '600',
+                background: 'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 8px 25px rgba(59, 130, 246, 0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+              <PlayCircle style={{ width: '20px', height: '20px' }} />
+              Start Planning
               <ArrowRight style={{ width: '20px', height: '20px' }} />
             </button>
             <button style={{
-              padding: '16px 40px',
+              padding: '16px 32px',
               fontSize: '18px',
               fontWeight: '600',
               background: 'rgba(255, 255, 255, 0.9)',
@@ -287,42 +285,25 @@ export default function Home() {
               alignItems: 'center',
               gap: '8px'
             }}>
-              Ver Plano de Negócios
+              View Demo Results
               <BarChart3 style={{ width: '20px', height: '20px' }} />
             </button>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Key Metrics */}
       <section style={{ 
-        padding: '100px 24px', 
-        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.02) 0%, rgba(16, 185, 129, 0.02) 100%)',
-        borderTop: '1px solid rgba(59, 130, 246, 0.1)'
+        padding: '60px 24px', 
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(59, 130, 246, 0.02) 100%)'
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <h2 style={{ 
-              fontSize: '2.5rem', 
-              fontWeight: 'bold', 
-              marginBottom: '16px',
-              background: 'linear-gradient(135deg, #1E293B 0%, #475569 100%)', 
-              WebkitBackgroundClip: 'text', 
-              backgroundClip: 'text', 
-              color: 'transparent' 
-            }}>
-              Resultados Comprovados
-            </h2>
-            <p style={{ fontSize: '18px', color: '#64748B', maxWidth: '600px', margin: '0 auto' }}>
-              Números que falam por si só sobre o sucesso da nossa rede de franqueados
-            </p>
-          </div>
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-            gap: '32px' 
+            gap: '24px' 
           }}>
-            {stats.map((stat, index) => {
+            {keyMetrics.map((metric, index) => {
               const gradients = [
                 'linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%)',
                 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
@@ -330,223 +311,55 @@ export default function Home() {
                 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)'
               ]
               return (
-                <div key={stat.label} style={{ 
-                  background: 'rgba(255, 255, 255, 0.8)',
+                <Card key={metric.title} style={{ 
+                  background: 'rgba(255, 255, 255, 0.9)',
                   backdropFilter: 'blur(20px)',
                   border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '24px',
-                  padding: '40px 32px',
-                  textAlign: 'center',
+                  borderRadius: '16px',
+                  padding: '24px',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
-                  position: 'relative',
-                  overflow: 'hidden',
                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)'
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.12)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.08)'
                 }}>
-                  {/* Background Glow */}
-                  <div style={{
-                    position: 'absolute',
-                    top: '0',
-                    left: '0',
-                    right: '0',
-                    height: '4px',
-                    background: gradients[index]
-                  }} />
-                  
-                  <div style={{ 
-                    width: '80px', 
-                    height: '80px', 
-                    background: gradients[index],
-                    borderRadius: '20px', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    margin: '0 auto 24px auto',
-                    boxShadow: `0 8px 25px ${gradients[index].includes('#3B82F6') ? 'rgba(59, 130, 246, 0.3)' : gradients[index].includes('#10B981') ? 'rgba(16, 185, 129, 0.3)' : gradients[index].includes('#8B5CF6') ? 'rgba(139, 92, 246, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`
-                  }}>
-                    <stat.icon style={{ width: '36px', height: '36px', color: 'white' }} />
-                  </div>
-                  <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#1E293B', marginBottom: '12px', lineHeight: '1' }}>
-                    {stat.value}
-                  </div>
-                  <div style={{ fontSize: '16px', color: '#64748B', fontWeight: '500' }}>
-                    {stat.label}
-                  </div>
-                </div>
+                  <CardContent style={{ padding: 0 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                      <div>
+                        <p style={{ fontSize: '14px', fontWeight: '600', color: '#64748B', margin: '0 0 8px 0' }}>
+                          {metric.title}
+                        </p>
+                        <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#1E293B', margin: '0 0 8px 0' }}>
+                          {metric.value}
+                        </p>
+                        <p style={{ fontSize: '12px', color: '#64748B', margin: 0 }}>
+                          {metric.description}
+                        </p>
+                      </div>
+                      <div style={{ 
+                        width: '48px', 
+                        height: '48px', 
+                        background: gradients[index],
+                        borderRadius: '12px', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        boxShadow: `0 6px 20px ${gradients[index].includes('#3B82F6') ? 'rgba(59, 130, 246, 0.3)' : gradients[index].includes('#10B981') ? 'rgba(16, 185, 129, 0.3)' : gradients[index].includes('#8B5CF6') ? 'rgba(139, 92, 246, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`
+                      }}>
+                        <metric.icon style={{ width: '24px', height: '24px', color: 'white' }} />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               )
             })}
           </div>
         </div>
       </section>
 
-      {/* Brands Section */}
+      {/* Planning Steps */}
       <section style={{ 
-        padding: '120px 24px', 
-        background: 'linear-gradient(135deg, #F8FAFC 0%, rgba(59, 130, 246, 0.03) 100%)',
-        position: 'relative'
+        padding: '80px 24px', 
+        backgroundColor: 'white'
       }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 20px',
-              background: 'rgba(139, 92, 246, 0.1)',
-              border: '1px solid rgba(139, 92, 246, 0.2)',
-              borderRadius: '50px',
-              marginBottom: '24px',
-              fontSize: '14px',
-              fontWeight: '600',
-              color: '#8B5CF6'
-            }}>
-              <Star style={{ width: '16px', height: '16px' }} />
-              5 Marcas Premium
-            </div>
-            <h2 style={{ 
-              fontSize: '3rem', 
-              fontWeight: 'bold', 
-              marginBottom: '24px',
-              background: 'linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #10B981 100%)', 
-              WebkitBackgroundClip: 'text', 
-              backgroundClip: 'text', 
-              color: 'transparent',
-              lineHeight: '1.1'
-            }}>
-              Portfólio Educacional
-            </h2>
-            <p style={{ fontSize: '20px', color: '#64748B', maxWidth: '700px', margin: '0 auto', lineHeight: '1.6' }}>
-              Comercialize as marcas educacionais mais inovadoras do mercado através de uma única plataforma inteligente
-            </p>
-          </div>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', 
-            gap: '32px' 
-          }}>
-            {brands.map((brand, index) => (
-              <div
-                key={brand.name} 
-                style={{ 
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  transition: 'all 0.4s ease',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-12px)'
-                  e.currentTarget.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.15)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.08)'
-                }}
-              >
-                {/* Header with gradient */}
-                <div style={{ 
-                  height: '6px', 
-                  background: brand.color,
-                  position: 'relative'
-                }}>
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: '100%',
-                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
-                    animation: 'shimmer 2s infinite'
-                  }} />
-                </div>
-                
-                {/* Card Content */}
-                <div style={{ padding: '32px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px' }}>
-                    <div style={{
-                      fontSize: '48px',
-                      width: '80px',
-                      height: '80px',
-                      background: brand.color,
-                      borderRadius: '20px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: `0 8px 25px ${brand.color.includes('#3B82F6') ? 'rgba(59, 130, 246, 0.25)' : brand.color.includes('#8B5CF6') ? 'rgba(139, 92, 246, 0.25)' : brand.color.includes('#10B981') ? 'rgba(16, 185, 129, 0.25)' : brand.color.includes('#F59E0B') ? 'rgba(245, 158, 11, 0.25)' : 'rgba(236, 72, 153, 0.25)'}`
-                    }}>
-                      <span style={{ fontSize: '32px' }}>{brand.icon}</span>
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <h3 style={{ fontSize: '24px', fontWeight: 'bold', color: '#1E293B', marginBottom: '8px' }}>
-                        {brand.name}
-                      </h3>
-                      <p style={{ color: '#64748B', fontSize: '16px', margin: 0 }}>
-                        {brand.description}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div style={{ marginBottom: '24px' }}>
-                    {brand.features.map((feature, idx) => (
-                      <div key={feature} style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: '12px', 
-                        marginBottom: '12px'
-                      }}>
-                        <div style={{
-                          width: '24px',
-                          height: '24px',
-                          background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-                          borderRadius: '50%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0
-                        }}>
-                          <CheckCircle style={{ width: '14px', height: '14px', color: 'white' }} />
-                        </div>
-                        <span style={{ fontSize: '15px', color: '#475569', fontWeight: '500' }}>{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div style={{ 
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
-                    alignItems: 'center',
-                    padding: '20px 24px',
-                    background: 'rgba(16, 185, 129, 0.08)',
-                    borderRadius: '16px',
-                    border: '1px solid rgba(16, 185, 129, 0.15)'
-                  }}>
-                    <span style={{ fontSize: '16px', color: '#475569', fontWeight: '600' }}>Comissão Unificada</span>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '28px', fontWeight: 'bold', color: '#10B981' }}>20%</span>
-                      <TrendingUp style={{ width: '20px', height: '20px', color: '#10B981' }} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section style={{ padding: '80px 24px', backgroundColor: 'white' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '60px' }}>
             <h2 style={{ 
@@ -555,36 +368,155 @@ export default function Home() {
               marginBottom: '16px',
               color: '#1E293B'
             }}>
-              Por que Better Sell?
+              Franchise Planning Process
             </h2>
+            <p style={{ fontSize: '18px', color: '#64748B', maxWidth: '600px', margin: '0 auto' }}>
+              Interactive 4-step planning tool to model your investment and generate a personalized franchise proposal
+            </p>
           </div>
+          
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
             gap: '32px' 
           }}>
-            {benefits.map((benefit) => (
-              <div key={benefit.title} style={{ textAlign: 'center' }}>
-                <div style={{ 
-                  fontSize: '48px', 
-                  marginBottom: '16px',
-                  filter: 'grayscale(0.3)'
-                }}>
-                  {benefit.icon}
-                </div>
-                <h3 style={{ 
-                  fontSize: '20px', 
-                  fontWeight: 'bold', 
-                  marginBottom: '8px', 
-                  color: '#1E293B' 
-                }}>
-                  {benefit.title}
-                </h3>
-                <p style={{ fontSize: '16px', color: '#64748B' }}>
-                  {benefit.description}
-                </p>
-              </div>
+            {planningSteps.map((step, index) => (
+              <Card 
+                key={step.step}
+                style={{ 
+                  background: currentStep === index + 1 ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%)' : 'white',
+                  border: currentStep === index + 1 ? '2px solid #3B82F6' : '1px solid #E2E8F0',
+                  borderRadius: '16px',
+                  padding: '32px',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer'
+                }}
+                onClick={() => setCurrentStep(index + 1)}
+              >
+                <CardContent style={{ padding: 0, textAlign: 'center' }}>
+                  <div style={{ 
+                    width: '80px', 
+                    height: '80px', 
+                    background: step.color,
+                    borderRadius: '20px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    margin: '0 auto 24px auto',
+                    boxShadow: `0 8px 25px ${step.color}40`
+                  }}>
+                    <step.icon style={{ width: '36px', height: '36px', color: 'white' }} />
+                  </div>
+                  <div style={{ 
+                    fontSize: '32px', 
+                    fontWeight: 'bold', 
+                    color: step.color, 
+                    marginBottom: '16px' 
+                  }}>
+                    {step.step}
+                  </div>
+                  <h3 style={{ 
+                    fontSize: '20px', 
+                    fontWeight: 'bold', 
+                    color: '#1E293B', 
+                    marginBottom: '12px' 
+                  }}>
+                    {step.title}
+                  </h3>
+                  <p style={{ fontSize: '15px', color: '#64748B', lineHeight: '1.5' }}>
+                    {step.description}
+                  </p>
+                </CardContent>
+              </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Business Model Priority */}
+      <section style={{ 
+        padding: '80px 24px', 
+        background: 'linear-gradient(135deg, #F8FAFC 0%, rgba(59, 130, 246, 0.02) 100%)'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <h2 style={{ 
+              fontSize: '2.5rem', 
+              fontWeight: 'bold', 
+              marginBottom: '16px',
+              color: '#1E293B'
+            }}>
+              Revenue Model Priority
+            </h2>
+            <p style={{ fontSize: '18px', color: '#64748B', maxWidth: '700px', margin: '0 auto' }}>
+              Strategic focus on B2B and B2B2C with reduced B2C emphasis for higher-value, longer-term contracts
+            </p>
+          </div>
+          
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+            gap: '24px' 
+          }}>
+            {businessModels.map((model, index) => {
+              const priorityColors = {
+                'Alta': '#10B981',
+                'Média': '#F59E0B', 
+                'Baixa': '#64748B'
+              }
+              return (
+                <Card 
+                  key={model.type}
+                  style={{ 
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    border: `2px solid ${priorityColors[model.priority as keyof typeof priorityColors]}20`,
+                    borderRadius: '16px',
+                    padding: '24px',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  <CardContent style={{ padding: 0 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                      <h3 style={{ 
+                        fontSize: '24px', 
+                        fontWeight: 'bold', 
+                        color: '#1E293B',
+                        margin: 0
+                      }}>
+                        {model.type}
+                      </h3>
+                      <div style={{
+                        padding: '4px 12px',
+                        borderRadius: '8px',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        backgroundColor: `${priorityColors[model.priority as keyof typeof priorityColors]}20`,
+                        color: priorityColors[model.priority as keyof typeof priorityColors]
+                      }}>
+                        {model.priority} Prioridade
+                      </div>
+                    </div>
+                    <p style={{ fontSize: '14px', color: '#64748B', marginBottom: '16px' }}>
+                      {model.description}
+                    </p>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', fontSize: '12px' }}>
+                      <div>
+                        <span style={{ color: '#64748B' }}>Revenue Share:</span>
+                        <p style={{ fontWeight: '600', color: '#1E293B', margin: 0 }}>{model.revenue}</p>
+                      </div>
+                      <div>
+                        <span style={{ color: '#64748B' }}>Avg Deal:</span>
+                        <p style={{ fontWeight: '600', color: '#1E293B', margin: 0 }}>{model.avgDeal}</p>
+                      </div>
+                      <div>
+                        <span style={{ color: '#64748B' }}>Sales Cycle:</span>
+                        <p style={{ fontWeight: '600', color: '#1E293B', margin: 0 }}>{model.cycle}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -598,11 +530,10 @@ export default function Home() {
       }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '24px' }}>
-            Pronto para se Tornar um Franqueado Better Sell?
+            Ready to Plan Your Franchise Investment?
           </h2>
           <p style={{ fontSize: '18px', marginBottom: '32px', opacity: 0.9 }}>
-            Comece a vender múltiplas marcas educacionais premium com nosso sistema de franquia comprovado.
-            Investimento de R$50k, comissão de 20%, e suporte completo.
+            Use our interactive planning tool to model scenarios and generate your personalized investment proposal for Q1 2026 launch.
           </p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Button 
@@ -610,11 +541,12 @@ export default function Home() {
               style={{ 
                 backgroundColor: 'white', 
                 color: '#3B82F6', 
-                padding: '12px 32px',
+                padding: '16px 32px',
                 fontSize: '16px'
               }}
+              onClick={() => setCurrentStep(1)}
             >
-              Candidatar-se Agora
+              Start Planning Tool
             </Button>
             <Button 
               variant="outline" 
@@ -622,11 +554,11 @@ export default function Home() {
               style={{ 
                 borderColor: 'white', 
                 color: 'white', 
-                padding: '12px 32px',
+                padding: '16px 32px',
                 fontSize: '16px'
               }}
             >
-              Baixar Prospecto
+              Download Framework
             </Button>
           </div>
         </div>
@@ -656,31 +588,31 @@ export default function Home() {
                 <span style={{ fontSize: '18px', fontWeight: 'bold' }}>Better Sell</span>
               </div>
               <p style={{ color: '#94A3B8', fontSize: '14px' }}>
-                Plataforma de franquias multi-marca para o ecossistema Better Tech.
+                Franchise investment planning platform for the Better Tech ecosystem.
               </p>
             </div>
             <div>
-              <h3 style={{ fontWeight: '600', marginBottom: '16px' }}>Plataforma</h3>
+              <h3 style={{ fontWeight: '600', marginBottom: '16px' }}>Planning Tools</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <Link href="/dashboard" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Dashboard</Link>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Analytics</Link>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Gestão de Leads</Link>
+                <Link href="/planning" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Territory Analysis</Link>
+                <Link href="/scenarios" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Financial Scenarios</Link>
+                <Link href="/presentation" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Investment Presentation</Link>
               </div>
             </div>
             <div>
-              <h3 style={{ fontWeight: '600', marginBottom: '16px' }}>Suporte</h3>
+              <h3 style={{ fontWeight: '600', marginBottom: '16px' }}>Resources</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Central de Ajuda</Link>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Treinamentos</Link>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Comunidade</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Franchise Guide</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Financial Templates</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Market Research</Link>
               </div>
             </div>
             <div>
               <h3 style={{ fontWeight: '600', marginBottom: '16px' }}>Better Tech</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Sobre Nós</Link>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Política de Privacidade</Link>
-                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Termos de Uso</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>About Us</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Privacy Policy</Link>
+                <Link href="#" style={{ color: '#94A3B8', fontSize: '14px', textDecoration: 'none' }}>Terms of Use</Link>
               </div>
             </div>
           </div>
@@ -691,7 +623,7 @@ export default function Home() {
             textAlign: 'center' 
           }}>
             <p style={{ fontSize: '14px', color: '#94A3B8' }}>
-              &copy; 2024 Better Tech. Todos os direitos reservados. Construído com filosofia AI humana.
+              © 2024 Better Tech. All rights reserved. Franchise planning tool for Q1 2026 launch.
             </p>
           </div>
         </div>
